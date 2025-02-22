@@ -1,48 +1,19 @@
-import {Navigation} from "./pages/Navigation.jsx";
-import {createBrowserRouter, Outlet, RouterProvider} from "react-router";
-import {Login} from "./pages/Login.jsx";
-import {Provider} from "react-redux";
-import {store} from "./store/store.js";
-import {IndexAdmin} from "./pages/admin/IndexAdmin.jsx";
-import {ProtectedRoute} from "./components/ProtectedRoute.jsx";
-import {Register} from "./pages/Register.jsx";
-
-const RootComonent = function (){
-    return (
-        <>
-            <Navigation />
-            <Outlet />
-        </>
-    )
-}
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <RootComonent />,
-        children: [
-            {
-                path: "/login",
-                element: <Login />,
-            },
-            {
-                path: "/register",
-                element: <Register />,
-            },
-            {
-            path: "/admin",
-            element: <ProtectedRoute><IndexAdmin /></ProtectedRoute>
-            }
-        ]
-    }
-]);
+import { Navigation } from "./pages/Navigation/Navigation.jsx";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+import { Login } from "./pages/User/Login.jsx";
+import { Provider } from "react-redux";
+import { store } from "./store/store.js";
+import { IndexAdmin } from "./pages/admin/IndexAdmin.jsx";
+import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
+import { Register } from "./pages/User/Register.jsx";
+import { router } from "./router/router.jsx";
 
 function App() {
-
   return (
     <Provider store={store}>
-      <RouterProvider router={router} ></RouterProvider>
+      <RouterProvider router={router}></RouterProvider>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

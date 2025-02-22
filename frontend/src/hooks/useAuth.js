@@ -9,7 +9,7 @@ const useAuth = function () {
             .unwrap();
     }
 
-    const register = async (data) => {
+    const register_new_user = async (data) => {
         return dispatch(registerUser(data))
             .unwrap();
     }
@@ -29,7 +29,7 @@ const useAuth = function () {
         error,
         loading,
         token,
-        register,
+        register_new_user,
         getUser,
         logout,
     }
