@@ -1,7 +1,6 @@
 import React from "react";
 
-
-export default function SearchBar() {
+ const SearchBar= ()=> {
   return (
 <div className="search">
     <nav class=" navbar ">
@@ -13,7 +12,6 @@ export default function SearchBar() {
             placeholder="Search"
             aria-label="Search"
           />
-
           <select id="categorySelect" className="form-select me-2">
             <option value="">All</option>
           </select>
@@ -27,4 +25,6 @@ export default function SearchBar() {
   </div>
 )
 };
+
+export default SearchBar;
 

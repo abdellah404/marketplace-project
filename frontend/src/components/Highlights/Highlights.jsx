@@ -11,28 +11,28 @@ const Highlights = (data) => {
       title: "Card title 1",
       description: "Some quick example text to build .",
       image:
-       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
       price: "1000",
     },
     {
       title: "Card title 2",
       description: "Some quick example text to ",
       image:
-      "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
       price: "1000",
     },
     {
       title: "Card title 3",
       description: "Some quick example text to build .",
       image:
-      "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
       price: "1000",
     },
     {
       title: "Card title 4",
       description: "Some quick example text to build ",
       image:
-      "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
       price: "1000",
     },
 
@@ -40,7 +40,7 @@ const Highlights = (data) => {
       title: "Card title 4",
       description: "Some quick example text to build",
       image:
-      "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
       price: "1000",
     },
   ];
@@ -89,12 +89,12 @@ const Highlights = (data) => {
 
   return (
     <div className="container">
-      {/* <h5 class="d-flex align-items-center">
+      <h5 class="d-flex align-items-center">
         Nouvelle Annonces d'appartement
         <a href="#" class="btn ms-auto">
           En savoir plus
         </a>
-      </h5> */} 
+      </h5>
 
       <div id="carouselExample" className="carousel">
         <div
@@ -139,7 +139,6 @@ const Highlights = (data) => {
             className="carousel-control-prev-icon"
             aria-hidden="true"
           ></span>
-         
         </button>
         <button
           className="carousel-control-next"

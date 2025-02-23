@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchUser, loginUser, logoutUser, registerUser} from "../store/authSlice.js";
 
 const useAuth = function () {
-    const { user, error,loading,token } = useSelector((state) => state.auth);
+    const { user, error,loading,token , isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const login = async (credentiels) => {
         return dispatch(loginUser(credentiels))
@@ -22,6 +22,8 @@ const useAuth = function () {
         return dispatch(logoutUser()).unwrap();
     }
 
+    
+
 
     return {
         user,
@@ -32,6 +34,7 @@ const useAuth = function () {
         register_new_user,
         getUser,
         logout,
+        isAuthenticated
     }
 }
 export default useAuth;

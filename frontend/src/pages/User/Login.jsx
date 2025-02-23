@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Outlet } from "react-router";
 
 export function Login() {
-  const { error, login, user } = useAuth();
+  const { error, login , isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const userSchema = Yup.object({
@@ -36,17 +36,17 @@ export function Login() {
   const onSubmit = async (formData, event) => {
     event.preventDefault();
     console.log(formData);
-    console.log(isSubmitting);
-    login(formData)
+    await login(formData)
       .then((result) => {
         navigate("/app");
       })
-      .catch((err) => {});
+      .catch((err) => {})
+      
   };
 
   return (
     <>
-      {user && <Navigate to="/app"></Navigate>}
+      {isAuthenticated && <Navigate to="/app"></Navigate>}
       <form action="post" onSubmit={handleSubmit(onSubmit)}>
         <div className="container mt-5">
           <div className="row justify-content-center">

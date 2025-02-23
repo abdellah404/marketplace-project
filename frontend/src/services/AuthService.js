@@ -9,14 +9,10 @@ class AuthService {
 
     async login(credentials) {
         const response = await this.axios.post("/login",credentials)
-        localStorage.setItem("token", response.data.access_token)
-        localStorage.setItem("user", response.data.user)
         return response.data;
     }
     async register(credentials) {
         const response = await this.axios.post("/register",credentials)
-        localStorage.setItem("token", response.data.access_token)
-        localStorage.setItem("user", response.data.user)
         return response.data;
     }
 

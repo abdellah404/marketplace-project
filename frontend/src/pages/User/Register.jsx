@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Outlet } from "react-router";
 
 export function Register() {
-  const { error, register_new_user, user } = useAuth();
+  const { error, register_new_user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const userSchema = Yup.object({
@@ -45,7 +45,7 @@ export function Register() {
 
   return (
     <>
-      {user && <Navigate to="/app"></Navigate>}
+      {isAuthenticated && <Navigate to="/app"></Navigate>}
       <form method="post" onSubmit={handleSubmit(onSubmit)}>
         <div className="container mt-3">
           <div className="row justify-content-center">
