@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Annonce;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class AnnonceController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Annonce::all();
-        return response()->json([
-            'data'  => $data,
-        ]);
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -29,16 +34,23 @@ class AnnonceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Annonce $annonce)
+    public function show(Category $category)
     {
         //
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Category $category)
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Annonce $annonce)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -46,7 +58,7 @@ class AnnonceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Annonce $annonce)
+    public function destroy(Category $category)
     {
         //
     }

@@ -18,25 +18,31 @@ export function Register() {
       .matches(/[a-z]/, "Must contain at least one lowercase letter")
       .matches(/[0-9]/, "Must contain at least one number")
       .required("Password is required"),
+      phone: Yup.string()
+      .matches(/^0[0-9]{9}$/, "Phone number must start with 0 and have 10 digits")
+      .required("Phone number is required"),
+      location : Yup.string().required()
   });
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors , isSubmitting },
   } = useForm({
     resolver: yupResolver(userSchema),
     defaultValues: {
       email: "test@gmail.com",
       password: "afhyhe88OpRRRR3",
       name: "yassine",
+      location: "kenitra",
+      phone: "0642253987",
     },
   });
 
-  const onSubmit = (formData, event) => {
+  const onSubmit = async (formData, event) => {
     event.preventDefault();
     console.log(formData);
-    register_new_user(formData)
+    await register_new_user(formData)
       .then((result) => {
         navigate("/app");
       })
@@ -53,11 +59,11 @@ export function Register() {
               <div className="register-card p-4 border rounded">
                 <h2 className="text-center mb-4 font-weight-bold">Register</h2>
                 <div className="mb-3">
-                  <label htmlFor="firstName" className="form-label">
+                  <label htmlFor="name" className="form-label">
                     Full Name
                   </label>
                   <input
-                    id="firstName"
+                    id="name"
                     type="text"
                     className="form-control"
                     placeholder="Enter your firstName"
@@ -85,6 +91,44 @@ export function Register() {
                   </p>
                 </div>
 
+               {/* {location} */}
+
+               <div className="mb-3">
+                  <label htmlFor="location" className="form-label">
+                    Location
+                  </label>
+                  <input
+                    id="location"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter your location"
+                    {...register("location")}
+                  />
+                  <p className="text-danger mt-1">
+                    {errors.location?.message || error?.errors?.location}
+                  </p>
+                </div>
+
+               {/* {phone} */}
+
+
+               <div className="mb-3">
+                  <label htmlFor="phone" className="form-label">
+                    Phone number
+                  </label>
+                  <input
+                    id="phone"
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter your email"
+                    {...register("phone")}
+                  />
+                  <p className="text-danger mt-1">
+                    {errors.phone?.message || error?.errors?.phone}
+                  </p>
+                </div>
+
+               {/* {password} */}
                 <div className="mb-4">
                   <label htmlFor="password" className="form-label">
                     Password
@@ -100,7 +144,7 @@ export function Register() {
                     {errors.password?.message || error?.errors?.password}
                   </p>
                 </div>
-                <button type="submit" className="btn btn-primary w-100 mb-3">
+                <button disabled={isSubmitting} type="submit" className="btn btn-primary w-100 mb-3">
                   Register
                 </button>
                 <p className="mt-4 text-center">

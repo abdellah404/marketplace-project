@@ -2,54 +2,59 @@ import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import "./Highlights.css";
 
-const Highlights = (data) => {
+const Highlights = ({ data, category }) => {
   const carouselInnerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const cards = [
-    {
-      title: "Card title 1",
-      description: "Some quick example text to build .",
-      image:
-        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-      price: "1000",
-    },
-    {
-      title: "Card title 2",
-      description: "Some quick example text to ",
-      image:
-        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-      price: "1000",
-    },
-    {
-      title: "Card title 3",
-      description: "Some quick example text to build .",
-      image:
-        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-      price: "1000",
-    },
-    {
-      title: "Card title 4",
-      description: "Some quick example text to build ",
-      image:
-        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-      price: "1000",
-    },
+  if (!data || !Array.isArray(data)) {
+    console.log(" type ", Array.isArray(data));
 
-    {
-      title: "Card title 4",
-      description: "Some quick example text to build",
-      image:
-        "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-      price: "1000",
-    },
-  ];
+    return <p>No annonces available.</p>;
+  }
+  // const cards = [
+  //   {
+  //     title: "Card title 1",
+  //     description: "Some quick example text to build .",
+  //     image:
+  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+  //     price: "1000",
+  //   },
+  //   {
+  //     title: "Card title 2",
+  //     description: "Some quick example text to ",
+  //     image:
+  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+  //     price: "1000",
+  //   },
+  //   {
+  //     title: "Card title 3",
+  //     description: "Some quick example text to build .",
+  //     image:
+  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+  //     price: "1000",
+  //   },
+  //   {
+  //     title: "Card title 4",
+  //     description: "Some quick example text to build ",
+  //     image:
+  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+  //     price: "1000",
+  //   },
+
+  //   {
+  //     title: "Card title 4",
+  //     description: "Some quick example text to build",
+  //     image:
+  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
+  //     price: "1000",
+  //   },
+  // ];
 
   const handleNext = () => {
     const carouselInner = carouselInnerRef.current;
     const cardWidth = carouselInner.children[0].offsetWidth;
 
-    if (currentIndex < cards.length - 1) {
+    if (currentIndex < data.length - 1) {
       setCurrentIndex(currentIndex + 1);
       carouselInner.scrollTo({
         left: (currentIndex + 1) * cardWidth,
@@ -90,7 +95,7 @@ const Highlights = (data) => {
   return (
     <div className="container">
       <h5 class="d-flex align-items-center">
-        Nouvelle Annonces d'appartement
+        Nouvelle Annonces d'{category}
         <a href="#" class="btn ms-auto">
           En savoir plus
         </a>
@@ -104,7 +109,7 @@ const Highlights = (data) => {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {cards.map((card, index) => (
+          {data.map((annonce, index) => (
             <div
               key={index}
               className={`carousel-item ${
@@ -112,10 +117,12 @@ const Highlights = (data) => {
               }`}
             >
               <Card
-                title={card.title}
-                description={card.description}
-                image={card.image}
-                price={card.price}
+                title={annonce.title}
+                description={annonce.description}
+                image={
+                  "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0="
+                }
+                price={annonce.price}
               />
             </div>
           ))}
@@ -144,7 +151,7 @@ const Highlights = (data) => {
           className="carousel-control-next"
           type="button"
           onClick={handleNext}
-          disabled={currentIndex === cards.length - 1}
+          disabled={currentIndex === data.length - 1}
         >
           <span
             className="carousel-control-next-icon"

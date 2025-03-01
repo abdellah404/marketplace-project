@@ -31,19 +31,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const fetchUser = createAsyncThunk(
-  "auth/fetchUser",
-  async (_, thunkAPI) => {
-    try {
-      const data = await AuthService.fetchUser();
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data || error.message || "Fetching user failed"
-      );
-    }
-  }
-);
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
@@ -53,8 +40,8 @@ export const logoutUser = createAsyncThunk(
 );
 
 const initialState = {
-  token: localStorage.getItem("token") || null,
-  user: localStorage.getItem("user") || null,
+  token: null,
+  user:  null,
   loading: false,
   error: null,
   isAuthenticated : false
@@ -103,22 +90,6 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-
-      // Fetch User
-      .addCase(fetchUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        
-      })
-      .addCase(fetchUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-
       })
 
       // Logout
