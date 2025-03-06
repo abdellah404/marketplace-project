@@ -17,9 +17,20 @@ export const getAllAnnonces = createAsyncThunk(
   }
 );
 
+export const addNewAnnonce = createAsyncThunk("annonces/addAnnonce",async (annonceFormData, thunkAPI) => {
+    try {
+      const data = await AnnoncesService.addAnnonce(annonceFormData);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data || error.message || "storing annonce failed"
+      );
+    }
+  }
+);
+
 const initialState = {
   annoncesData: [],
-  loading: false,
   error: null,
 };
 
@@ -32,17 +43,22 @@ const annoncesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // annonces
+    // fetch annonces
     builder
       .addCase(getAllAnnonces.pending, (state) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(getAllAnnonces.fulfilled, (state, action) => {
         state.annoncesData = action.payload.data;
       })
       .addCase(getAllAnnonces.rejected, (state, action) => {
-        state.loading = false;
+        state.error = action.payload;
+      })
+      // add annonce
+      .addCase(addNewAnnonce.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(addNewAnnonce.rejected, (state, action) => {
         state.error = action.payload;
       });
   },

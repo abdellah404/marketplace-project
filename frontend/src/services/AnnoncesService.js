@@ -6,6 +6,10 @@ class AnnoncesService {
     const response = await axioService.get("/annonces");
     return response.data ;
   }
+  async addAnnonce(annonceFormData) {
+    const response = await axioService.post("/annonces",annonceFormData);
+    return response.data ;
+  }
 }
 
 export default new AnnoncesService();

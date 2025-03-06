@@ -3,12 +3,12 @@ import React from "react";
  const SearchBar= ()=> {
   return (
 <div className="search">
-    <nav class=" navbar ">
-      <div class="container justify-content-center">
-        <form class="d-flex w-50" role="search">
+    <nav className=" navbar ">
+      <div className="container justify-content-center">
+        <form className="d-flex w-50" role="search">
           <input
             type="text"
-            class="form-control me-4"
+            className="form-control me-4"
             placeholder="Search"
             aria-label="Search"
           />
@@ -16,7 +16,7 @@ import React from "react";
             <option value="">All</option>
           </select>
 
-          <button class="btn btn-outline-primary" type="submit">
+          <button className="btn btn-outline-primary" type="submit">
             Search
           </button>
         </form>

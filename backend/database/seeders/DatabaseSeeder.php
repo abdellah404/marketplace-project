@@ -16,18 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        // Créer des catégories
-       $categories = Category::factory(5)->create();
+       $categories = Category::factory(3)->create();
 
        // Créer des utilisateurs et leurs annonces
-       User::factory(5)->create()->each(function ($user) use ($categories) {
-           Annonce::factory(3)->create([
+       User::factory(10)->create()->each(function ($user) use ($categories) {
+           Annonce::factory(10)->create([
                'user_id' => $user->id,
                'category_id' => $categories->random()->id, // Assigner une catégorie aléatoire
            ]);
        });
-
-
-
 
     }
 }

@@ -12,7 +12,7 @@ class AnnonceController extends Controller
      */
     public function index()
     {
-        $data = Annonce::all();
+        $data = Annonce::with('user:id,name' , 'category:id,name')->get();;
         return response()->json([
             'data'  => $data,
         ]);
@@ -21,9 +21,39 @@ class AnnonceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeAnnonce(Request $request)
     {
-        //
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'city' => 'required|string|max:255',
+            ]);
+
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->storeAs('uploads','annonces', 'public');
+
+                Annonce::create([
+                    'title' => $request->title,
+                    'description' => $request->description,
+                    'category_id' => $request->category_id,
+                    'price' => $request->price,
+                    'city' => $request->city,
+                    'isActive' =>$request->isActive,
+                    'isValidated' =>$request->isValidated,
+                    'user_id' =>$request->user_id,
+                    'image' => asset('storage/' . $imagePath), // Assurez-vous que l'URL est correcte
+
+                ]);
+
+                return response()->json([
+                    'message' => 'Annonce créée avec succès',
+                ], 201);
+            }
+
+            return response()->json(['message' => 'Erreur lors du téléchargement de l’image'], 400);
+
     }
 
     /**

@@ -4,7 +4,6 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Outlet } from "react-router";
 
 export function Register() {
   const { error, register_new_user, isAuthenticated } = useAuth();
@@ -21,7 +20,7 @@ export function Register() {
       phone: Yup.string()
       .matches(/^0[0-9]{9}$/, "Phone number must start with 0 and have 10 digits")
       .required("Phone number is required"),
-      location : Yup.string().required()
+      city : Yup.string().required()
   });
 
   const {
@@ -34,7 +33,7 @@ export function Register() {
       email: "test@gmail.com",
       password: "afhyhe88OpRRRR3",
       name: "yassine",
-      location: "kenitra",
+      city: "kenitra",
       phone: "0642253987",
     },
   });
@@ -91,21 +90,21 @@ export function Register() {
                   </p>
                 </div>
 
-               {/* {location} */}
+               {/* {city} */}
 
                <div className="mb-3">
-                  <label htmlFor="location" className="form-label">
-                    Location
+                  <label htmlFor="city" className="form-label">
+                    City
                   </label>
                   <input
-                    id="location"
+                    id="city"
                     type="text"
                     className="form-control"
                     placeholder="Enter your location"
-                    {...register("location")}
+                    {...register("city")}
                   />
                   <p className="text-danger mt-1">
-                    {errors.location?.message || error?.errors?.location}
+                    {errors.city?.message || error?.errors?.city}
                   </p>
                 </div>
 

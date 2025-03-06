@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('description');
             $table->double('price');
             $table->string('image');
-            $table->string('location');
+            $table->string('city');
             $table->boolean('isActive');
             $table->boolean('isValidated');
             $table->unsignedBigInteger('user_id');

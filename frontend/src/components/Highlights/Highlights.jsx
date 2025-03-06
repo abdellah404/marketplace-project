@@ -1,54 +1,17 @@
 import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import "./Highlights.css";
-
+import useAuth from "../../hooks/useAuth";
+import { use } from "react";
 const Highlights = ({ data, category }) => {
   const carouselInnerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (!data || !Array.isArray(data)) {
-    console.log(" type ", Array.isArray(data));
+  if (!data || !Array.isArray(data) || data.length < 2 ) {
 
-    return <p>No annonces available.</p>;
+    return ;
   }
-  // const cards = [
-  //   {
-  //     title: "Card title 1",
-  //     description: "Some quick example text to build .",
-  //     image:
-  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-  //     price: "1000",
-  //   },
-  //   {
-  //     title: "Card title 2",
-  //     description: "Some quick example text to ",
-  //     image:
-  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-  //     price: "1000",
-  //   },
-  //   {
-  //     title: "Card title 3",
-  //     description: "Some quick example text to build .",
-  //     image:
-  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-  //     price: "1000",
-  //   },
-  //   {
-  //     title: "Card title 4",
-  //     description: "Some quick example text to build ",
-  //     image:
-  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-  //     price: "1000",
-  //   },
-
-  //   {
-  //     title: "Card title 4",
-  //     description: "Some quick example text to build",
-  //     image:
-  //       "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0=",
-  //     price: "1000",
-  //   },
-  // ];
+   
 
   const handleNext = () => {
     const carouselInner = carouselInnerRef.current;
@@ -94,9 +57,9 @@ const Highlights = ({ data, category }) => {
 
   return (
     <div className="container">
-      <h5 class="d-flex align-items-center">
-        Nouvelle Annonces d'{category}
-        <a href="#" class="btn ms-auto">
+      <h5 className="d-flex align-items-center">
+        Nouvelle Annonces {category}
+        <a href="#" className="btn ms-auto">
           En savoir plus
         </a>
       </h5>
@@ -117,11 +80,10 @@ const Highlights = ({ data, category }) => {
               }`}
             >
               <Card
+              username= {annonce.user.name}
+              timeAgo={annonce.created_at}
                 title={annonce.title}
-                description={annonce.description}
-                image={
-                  "https://media.istockphoto.com/id/1138251272/photo/smartphones-on-the-counter-of-a-electronics-store.jpg?s=1024x1024&w=is&k=20&c=U-Q8KSUWYxZxmOdk9KoN5sn_VOsshsjCW98CJ2EQDT0="
-                }
+                image={annonce.image}
                 price={annonce.price}
               />
             </div>
