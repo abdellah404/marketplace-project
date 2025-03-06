@@ -1,0 +1,15 @@
+/* Navigation.css */
+#navbar_container {
+    position: fixed; /* Rend la navbar fixe */
+    top: 0; /* Positionne la navbar en haut de la page */
+    left: 0; /* Positionne la navbar à gauche */
+    width: 100%; /* Prend toute la largeur de la page */
+    z-index: 1000; /* Assure que la navbar est au-dessus des autres éléments */
+    background-color: white; /* Couleur de fond */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+  }
+  
+  /* Ajuster le contenu pour éviter le chevauchement avec la navbar */
+  body {
+    padding-top: 85px; /* Ajoute une marge en haut égale à la hauteur de la navbar */
+  }
