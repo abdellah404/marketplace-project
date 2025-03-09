@@ -1,23 +1,28 @@
 import React, { useRef, useState } from "react";
 import Card from "../Card/Card";
 import "./Highlights.css";
-import useAuth from "../../hooks/useAuth";
-import { use } from "react";
+import { Link } from "react-router";
+
 const Highlights = ({ data, category }) => {
+  // Filter annonces by category
+  const annonces = data.filter((annonce) => annonce.category && annonce.category.name === category);
+
+  // Check if there are any annonces in the filtered array
+  if (annonces.length === 0) {
+    return <p>No annonces found for category {category}.</p>;
+  }
+
+  // Get the category ID from the first annonce in the filtered array
+  const id_cat = annonces[0].category.id;
+
   const carouselInnerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  if (!data || !Array.isArray(data) || data.length < 2 ) {
-
-    return ;
-  }
-   
 
   const handleNext = () => {
     const carouselInner = carouselInnerRef.current;
     const cardWidth = carouselInner.children[0].offsetWidth;
 
-    if (currentIndex < data.length - 1) {
+    if (currentIndex < annonces.length - 1) {
       setCurrentIndex(currentIndex + 1);
       carouselInner.scrollTo({
         left: (currentIndex + 1) * cardWidth,
@@ -55,13 +60,27 @@ const Highlights = ({ data, category }) => {
     }
   };
 
+  const getCategoryIcon = (category) => {
+    switch (category) {
+      case "Voitures":
+        return "bi bi-car-front-fill ms-2";
+      case "Apartements":
+        return "bi bi-building ms-2";
+      case "Telephones":
+        return "bi bi-phone ms-2 ";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="container">
       <h5 className="d-flex align-items-center">
         Nouvelle Annonces {category}
-        <a href="#" className="btn ms-auto">
+        <i className={getCategoryIcon(category)}></i>
+        <Link to={`/app/annonces/${id_cat}`} className="btn ms-auto">
           En savoir plus
-        </a>
+        </Link>
       </h5>
 
       <div id="carouselExample" className="carousel">
@@ -72,7 +91,7 @@ const Highlights = ({ data, category }) => {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {data.map((annonce, index) => (
+          {annonces.slice(0, 10).map((annonce, index) => (
             <div
               key={index}
               className={`carousel-item ${
@@ -80,24 +99,26 @@ const Highlights = ({ data, category }) => {
               }`}
             >
               <Card
-              username= {annonce.user.name}
-              timeAgo={annonce.created_at}
+                username={annonce.user.name}
+                timeAgo={annonce.created_at}
                 title={annonce.title}
                 image={annonce.image}
                 price={annonce.price}
+                id={annonce.id}
+                
               />
             </div>
           ))}
-
           <div className="carousel-item">
-            <a
-              href="#"
+            <Link
+              to={`/app/annonces/${id_cat}`}
               className="d-flex justify-content-center align-items-center w-100 h-100"
             >
               En savoir plus
-            </a>
+            </Link>
           </div>
         </div>
+
         <button
           className="carousel-control-prev"
           type="button"
@@ -113,7 +134,7 @@ const Highlights = ({ data, category }) => {
           className="carousel-control-next"
           type="button"
           onClick={handleNext}
-          disabled={currentIndex === data.length - 1}
+          disabled={currentIndex === annonces.length - 1}
         >
           <span
             className="carousel-control-next-icon"

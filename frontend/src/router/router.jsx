@@ -11,6 +11,11 @@ import UserLayout from "../layouts/User/UserLayout";
 import CreateAnnonce from "../pages/Annonces/CreateAnnonce";
 import useAuth from "../hooks/useAuth";
 import { Navigate , useNavigate } from "react-router";
+import ShowMoreAnnonces from "../pages/Annonces/ShowMoreAnnonces";
+import ProfileNavigation from "../pages/Profile/ProfileNavigation";
+import ProfileSettings from "../pages/Profile/ProfileSettings";
+import ProfileLayout from "../layouts/Profile/ProfileLayout";
+import DetailsPage from "../pages/DetailsPage/DetailsPage";
 
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated } = useAuth(); // Check user authentication
@@ -35,14 +40,33 @@ export const router = createBrowserRouter([
         path: "/app/register",
         element: <Register />,
       },
+      {
+        path: "/app/annonces/:cat_id",
+        element: <ShowMoreAnnonces />,
+      },
+      {
+        path: "/app/annonces/details/:id",
+        element: <DetailsPage />,
+      },
     ],
   },
-  { element: <UserLayout />,
-     children: [
+  {
+    element: <UserLayout />,
+    children: [
+      {
+        path: "/app/post",
+        element: <ProtectedRoute element={<CreateAnnonce />} />,
+      },
+      {
+        path: "/app/profile",
+        element: <ProtectedRoute element={<ProfileLayout />} />,
+        children: [
           {
-            path : "/app/post",
-            element : <ProtectedRoute element={<CreateAnnonce/>} />
+            path: "/app/profile/settings",
+            element: <ProfileSettings />,
           },
-
-  ] },
+        ],
+      },
+    ],
+  },
 ]);

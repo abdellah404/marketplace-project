@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Log;
 
 class AuthController extends Controller
 {
@@ -72,5 +73,24 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    // Update the authenticated user
+    public function update(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $this->validate($request, [
+            'name' => 'sometimes|string|max:255',
+            'city' => 'sometimes|string|max:255',
+            'phone' => 'sometimes|string|max:255',
+        ]);
+
+        $user->update($request->only(['name', 'city', 'phone']));
+        return response()->json(["user" => $user]);
     }
 }

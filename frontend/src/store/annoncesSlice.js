@@ -17,7 +17,7 @@ export const getAllAnnonces = createAsyncThunk(
   }
 );
 
-export const addNewAnnonce = createAsyncThunk("annonces/addAnnonce",async (annonceFormData, thunkAPI) => {
+export const addNewAnnonce = createAsyncThunk("annonces/addNewAnnonce",async (annonceFormData, thunkAPI) => {
     try {
       const data = await AnnoncesService.addAnnonce(annonceFormData);
       return data;
@@ -29,8 +29,34 @@ export const addNewAnnonce = createAsyncThunk("annonces/addAnnonce",async (annon
   }
 );
 
+export const getAnnoncesById = createAsyncThunk("annonces/getAnnoncesById",async (cat_id, thunkAPI) => {
+  try {
+    const data = await AnnoncesService.getAnnonces(cat_id);
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data || error.message || "fetching annonces failed"
+    );
+  }
+}
+);
+
+export const getAnnonceDetailsById = createAsyncThunk("annonces/getAnnonceDetailsById",async (ann_id, thunkAPI) => {
+  try {
+    const data = await AnnoncesService.getAnnonceDetails(ann_id);
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data || error.message || "fetching annonces failed"
+    );
+  }
+}
+);
+
 const initialState = {
   annoncesData: [],
+  AnnoncesCategory: [],
+  AnnonceDetails : [],
   error: null,
 };
 
@@ -60,7 +86,16 @@ const annoncesSlice = createSlice({
       })
       .addCase(addNewAnnonce.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+      // fetch annonces by category
+      .addCase(getAnnoncesById.fulfilled, (state, action) => {
+        state.AnnoncesCategory = action.payload.data ;
+      })
+      // fetch annonce details
+      .addCase(getAnnonceDetailsById.fulfilled, (state, action) => {
+        state.AnnonceDetails = action.payload.data ;
+      }
+      );
   },
 });
 

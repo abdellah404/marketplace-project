@@ -11,14 +11,14 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist
 const persistConfig = {
     key: "auth",
     storage,  // You can replace with sessionStorage if needed
-    blacklist: ["token"], // Exclude sensitive data
+ // Exclude sensitive data
 
 };
 
 const persistAnnoncesConfig = {
     key: "annonces",
     storage,
-    whitelist: ["annoncesData"],  // Ensure it is being saved
+    whitelist: ["annoncesData", "AnnoncesCategory" , "AnnonceDetails"],  // Ensure it is being saved
 
 };
 

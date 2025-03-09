@@ -1,4 +1,3 @@
-import axios from "axios";
 import axioService from "./api";
 
 class AnnoncesService {
@@ -10,6 +9,19 @@ class AnnoncesService {
     const response = await axioService.post("/annonces",annonceFormData);
     return response.data ;
   }
+
+  async getAnnonces(cat_id) {
+    const response = await axioService.get(`/annonces/${cat_id}`);
+    return response.data ;
+  }
+
+  async getAnnonceDetails(ann_id) {
+    const response = await axioService.get(`/annonces/details/${ann_id}`);
+    return response.data ;
+  }
+ 
+
+
 }
 
 export default new AnnoncesService();

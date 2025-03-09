@@ -2,16 +2,20 @@ import React from "react";
 import "./Card.css";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
+import { Navigate , useNavigate } from "react-router";
 
-export default function Card({ title, description, image, price , timeAgo , username }) {
+export default function Card({ title, id, image, price , timeAgo , username }) {
+
+  const navigate = useNavigate();
   // Fonction pour ajouter du texte si le titre est trop court
+  
   const truncateText = (text, maxLength) => {
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
   };
 
   const handleCardClick = () => {
-    // Exemple : Rediriger vers une page de détails
-    // navigate("/details", { state: { title, image, price, description } });
+    navigate(`/app/annonces/details/${id}`);
+    
   };
 
 

@@ -29,13 +29,16 @@ const apartements = annoncesData.filter(annonce => annonce.category.name === "Ap
 const telephone = annoncesData.filter(annonce => annonce.category.name === "Telephones");
 const voiture = annoncesData.filter(annonce => annonce.category.name === "Voitures");
 
+
+
+
 return (
 <>
     <SearchBar />
     <Header />
-    <Highlights data={apartements} category="d'Apartement"  />
-    <Highlights data={telephone} category="de Telephone" />
-    <Highlights data={voiture} category="de Voitures" />
+    <Highlights data={apartements} category="Apartements"  />
+    <Highlights data={telephone} category="Telephones" />
+    <Highlights data={voiture} category="Voitures" />
 
 
 </>

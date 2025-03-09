@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Annonce;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -37,10 +38,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
-    {
-        //
-    }
+   
 
     /**
      * Show the form for editing the specified resource.
