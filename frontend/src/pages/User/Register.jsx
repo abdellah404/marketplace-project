@@ -64,8 +64,7 @@ export function Register() {
                   <input
                     id="name"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter your firstName"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your firstName"
                     {...register("name")}
                   />
                   <p className="text-danger mt-1">
@@ -81,8 +80,7 @@ export function Register() {
                   <input
                     id="email"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter your email"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your email"
                     {...register("email")}
                   />
                   <p className="text-danger mt-1">
@@ -99,8 +97,7 @@ export function Register() {
                   <input
                     id="city"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter your location"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your location"
                     {...register("city")}
                   />
                   <p className="text-danger mt-1">
@@ -118,8 +115,7 @@ export function Register() {
                   <input
                     id="phone"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter your email"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your email"
                     {...register("phone")}
                   />
                   <p className="text-danger mt-1">
@@ -135,15 +131,14 @@ export function Register() {
                   <input
                     id="password"
                     type="password"
-                    className="form-control"
-                    placeholder="Enter your password"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your password"
                     {...register("password")}
                   />
                   <p className="text-danger mt-1">
                     {errors.password?.message || error?.errors?.password}
                   </p>
                 </div>
-                <button disabled={isSubmitting} type="submit" className="btn btn-primary w-100 mb-3">
+                <button disabled={isSubmitting} type="submit" className="btn btn-dark w-100 mb-3">
                   Register
                 </button>
                 <p className="mt-4 text-center">

@@ -60,8 +60,7 @@ export function Login() {
                   <input
                     id="email"
                     type="text"
-                    className="form-control"
-                    placeholder="Enter your email"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your email"
                     {...register("email")}
                   />
                   <p className="text-danger mt-1">
@@ -76,8 +75,7 @@ export function Login() {
                   <input
                     id="password"
                     type="password"
-                    className="form-control"
-                    placeholder="Enter your password"
+                    className="form-control shadow-none border-2 "                    placeholder="Enter your password"
                     {...register("password")}
                   />
                   <p className="text-danger mt-1">
@@ -87,7 +85,7 @@ export function Login() {
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 mb-3"
+                  className="btn btn-dark w-100 mb-3"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}

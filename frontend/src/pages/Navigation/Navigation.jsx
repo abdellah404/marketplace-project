@@ -23,7 +23,7 @@ export function Navigation() {
         <div className="container">
           <Link to="/app">
             <img
-              src="https://www.avito.ma/phoenix-assets/imgs/layout/new-logo.svg"
+              src="https://www.liblogo.com/img-logo/max/ma7809m1dc-marketplace-logo-marketplace-logo-internet--com.png" height={50}
               alt="Bootstrap"
             />
           </Link>
@@ -110,7 +110,7 @@ export function Navigation() {
 
               <li className="nav-item">
                 <Link to="/app/new-post">
-                  <div className="btn btn-danger">
+                  <div className="btn btn-danger bg-red ">
                     <i className="bi bi-plus-circle me-2"></i>
                     Publier une annonce
                   </div>

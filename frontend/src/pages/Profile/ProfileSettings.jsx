@@ -51,8 +51,6 @@ const ProfileSettings = () => {
 
     const [changed, setChanged] = useState('');
 
- 
-
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">
@@ -68,7 +66,7 @@ const ProfileSettings = () => {
                                         <input
                                             id="name"
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow-none border-2 "
                                             placeholder="Enter your name"
                                             {...register('name')}
                                         />
@@ -82,8 +80,7 @@ const ProfileSettings = () => {
                                         <input
                                             id="email"
                                             type="email"
-                                            className="form-control"
-                                            placeholder="Enter your email"
+                                            className="form-control shadow-none border-2 "                                            placeholder="Enter your email"
                                             {...register('email')}
                                             disabled // Disable the email field
                                         />
@@ -91,23 +88,22 @@ const ProfileSettings = () => {
                                     </div>
 
                                     <div className="mb-3">
-                    <label htmlFor="city" className="form-label fw-semibold">
-                      Ville
-                    </label>
-                    <select
-                      id="city"
-                      className="form-select border-primary"
-                      {...register("city")}
-                    >
-                        <option selected>{user.city}</option>
-                      {CitiesMorocco.map((city) => (
-                        <option key={city} value={city}>
-                          {city}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-danger mt-1">{errors.city?.message}</p>
-                  </div>
+                                        <label htmlFor="city" className="form-label fw-semibold">
+                                            Ville
+                                        </label>
+                                        <select
+                                            id="city"
+                                            className="form-select shadow-none border-2 "                                            {...register("city")}
+                                        >
+                                            <option defaultValue={user.city}>{user.city}</option>
+                                            {CitiesMorocco.map((city) => (
+                                                <option key={city} value={city}>
+                                                    {city}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <p className="text-danger mt-1">{errors.city?.message}</p>
+                                    </div>
 
                                     <div className="mb-3">
                                         <label htmlFor="phone" className="form-label">
@@ -116,18 +112,17 @@ const ProfileSettings = () => {
                                         <input
                                             id="phone"
                                             type="text"
-                                            className="form-control"
-                                            placeholder="Enter your phone number"
+                                            className="form-control shadow-none border-2 "                                            placeholder="Enter your phone number"
                                             {...register('phone')}
                                         />
                                         <p className="text-danger mt-1">{errors.phone?.message}</p>
                                     </div>
 
-                                    <button disabled={isSubmitting} type="submit" className="btn btn-primary w-100 mb-3">
+                                    <button disabled={isSubmitting} type="submit" className="btn btn-dark w-100 mb-3">
                                         Save
                                     </button>
                                 </form>
-                            ) }
+                            )}
                         </div>
                     </div>
                 </div>

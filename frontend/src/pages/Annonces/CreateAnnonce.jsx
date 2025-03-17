@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useCategories from "../../hooks/useCategories";
 import { toast } from "react-toastify"; // Notification
 import { CitiesMorocco } from "./data";
-import { Navigate , useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import useAnnonces from "../../hooks/useAnnonces";
 import useAuth from "../../hooks/useAuth";
 
@@ -14,16 +14,16 @@ const CreateAnnonce = () => {
   const { categoriesData } = useCategories();
   const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
-  const {addAnnonce} = useAnnonces();
-  const {user} = useAuth();
-    // Handle file change
-    const handleImageChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        setImagePreview(URL.createObjectURL(file));
-        setValue("image", file); // Mettre à jour useForm
-      }
-    };
+  const { addAnnonce } = useAnnonces();
+  const { user } = useAuth();
+  // Handle file change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+      setValue("image", file); // Mettre à jour useForm
+    }
+  };
 
   const completeFormStep = () => {
     setFormStep((prev) => prev + 1);
@@ -34,14 +34,22 @@ const CreateAnnonce = () => {
     category_id: Yup.number().required("Sélectionner une catégorie"),
     city: Yup.string().required("Sélectionner une ville"),
     description: Yup.string().required("La description est obligatoire"),
-    price: Yup.number().min(0, "Le prix doit être un nombre positif").required(),
+    price: Yup.number()
+      .min(0, "Le prix doit être un nombre positif")
+      .required(),
     image: Yup.mixed()
       .test("fileSize", "L'image doit être inférieure à 2MB", (value) => {
         return value?.[0] ? value[0].size <= 2 * 1024 * 1024 : true;
       })
-      .test("fileType", "Format d'image invalide (JPG, PNG uniquement)", (value) => {
-        return value?.[0] ? ["image/jpeg", "image/png"].includes(value[0].type) : true;
-      })
+      .test(
+        "fileType",
+        "Format d'image invalide (JPG, PNG uniquement)",
+        (value) => {
+          return value?.[0]
+            ? ["image/jpeg", "image/png"].includes(value[0].type)
+            : true;
+        }
+      ),
   });
 
   const {
@@ -49,7 +57,7 @@ const CreateAnnonce = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
-    setValue,  // ✅ Ajout de setValue ici
+    setValue, // ✅ Ajout de setValue ici
   } = useForm({
     resolver: yupResolver(userSchema),
     mode: "onChange",
@@ -57,15 +65,15 @@ const CreateAnnonce = () => {
       title: "pc",
       description: "kenitra",
       price: "1425",
-      isActive : 0 ,
-      isValidated : 0 ,
-      user_id : user.id
+      isActive: 0,
+      isValidated: 0,
+      user_id: user.id,
     },
   });
 
-  const onSubmit = async (data , event) => {
+  const onSubmit = async (data, event) => {
     event.preventDefault();
-    console.log("User Data Submitted:", data  , "  user id   " , user.id );
+    console.log("User Data Submitted:", data, "  user id   ", user.id);
     await addAnnonce(data);
     toast.success("Annonce publiée avec succès ! 🚀", {
       position: "top-left",
@@ -75,7 +83,6 @@ const CreateAnnonce = () => {
     reset();
     // 🔀 Rediriger vers une autre page (ex: liste des annonces)
     navigate("/app");
-    
   };
 
   const RenderButton = () => {
@@ -95,7 +102,7 @@ const CreateAnnonce = () => {
         {formStep < 2 ? (
           <button
             type="button"
-            className="btn btn-primary px-4"
+            className="btn btn-dark px-4"
             onClick={completeFormStep}
             disabled={!isValid}
           >
@@ -106,7 +113,6 @@ const CreateAnnonce = () => {
             type="submit"
             className="btn btn-success px-4"
             disabled={isSubmitting || !isValid}
-            
           >
             <i className="bi bi-check-circle"></i> Publier
           </button>
@@ -121,7 +127,7 @@ const CreateAnnonce = () => {
         <div className="row justify-content-center">
           <div className="col-md-6">
             <div className="register-card p-4 border rounded-3 shadow-sm bg-white">
-              <h2 className="text-center mb-4 fw-bold text-primary text-uppercase">
+              <h2 className="text-center mb-4 fw-bold text-secondary text-uppercase">
                 Publier une annonce
               </h2>
 
@@ -129,7 +135,10 @@ const CreateAnnonce = () => {
               {formStep === 0 && (
                 <section>
                   <div className="mb-3">
-                    <label htmlFor="categorySelect" className="form-label fw-semibold">
+                    <label
+                      htmlFor="categorySelect"
+                      className="form-label fw-semibold"
+                    >
                       Catégorie
                     </label>
                     <select
@@ -143,7 +152,9 @@ const CreateAnnonce = () => {
                         </option>
                       ))}
                     </select>
-                    <p className="text-danger mt-1">{errors.category_id?.message}</p>
+                    <p className="text-danger mt-1">
+                      {errors.category_id?.message}
+                    </p>
                   </div>
 
                   <div className="mb-3">
@@ -152,7 +163,7 @@ const CreateAnnonce = () => {
                     </label>
                     <select
                       id="city"
-                      className="form-select border-primary"
+                      className="form-select border-primary shadow-none"
                       {...register("city")}
                     >
                       {CitiesMorocco.map((city) => (
@@ -184,7 +195,10 @@ const CreateAnnonce = () => {
                   </div>
 
                   <div className="mb-3">
-                    <label htmlFor="description" className="form-label fw-semibold">
+                    <label
+                      htmlFor="description"
+                      className="form-label fw-semibold"
+                    >
                       Description
                     </label>
                     <textarea
@@ -193,7 +207,9 @@ const CreateAnnonce = () => {
                       placeholder="Décrivez votre annonce"
                       {...register("description")}
                     />
-                    <p className="text-danger mt-1">{errors.description?.message}</p>
+                    <p className="text-danger mt-1">
+                      {errors.description?.message}
+                    </p>
                   </div>
                 </section>
               )}
@@ -201,7 +217,6 @@ const CreateAnnonce = () => {
               {/* Étape 2 : Téléphone & Prix */}
               {formStep === 2 && (
                 <section>
-                  
                   <div className="mb-3">
                     <label htmlFor="price" className="form-label fw-semibold">
                       Prix
@@ -217,7 +232,7 @@ const CreateAnnonce = () => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="price" className="form-label fw-semibold">
-                    Ajouter une image
+                      Ajouter une image
                     </label>
                     <input
                       id="price"
@@ -226,12 +241,16 @@ const CreateAnnonce = () => {
                       className="form-control border-primary"
                       placeholder="Entrez le prix"
                       onChange={handleImageChange}
-                      
                     />
                     <p className="text-danger mt-1">{errors.image?.message}</p>
                     {imagePreview && (
                       <div className="mt-3">
-                        <img src={imagePreview} alt="Aperçu" className="img-thumbnail" width="150" />
+                        <img
+                          src={imagePreview}
+                          alt="Aperçu"
+                          className="img-thumbnail"
+                          width="150"
+                        />
                       </div>
                     )}
                   </div>
