@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Uses localStorage
 import annoncesReducer from "./annoncesSlice.js";
 import categoriesReducer from "./categoriesSlice.js";
+import favoritesReducer from "./favoritesSlice.js";
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist/es/constants";
 
 
@@ -18,7 +19,7 @@ const persistConfig = {
 const persistAnnoncesConfig = {
     key: "annonces",
     storage,
-    whitelist: ["annoncesData", "AnnoncesCategory" , "AnnonceDetails"],  // Ensure it is being saved
+    whitelist: ["annoncesData", "AnnoncesCategory" , "AnnonceDetails" , "myAnnonces"],  // Ensure it is being saved
 
 };
 
@@ -29,11 +30,18 @@ const persisteCategoriesConfig = {
 
 };
 
+const persisteFavoritesConfig = {
+    key: "favorites",
+    storage,
+    whitelist: ["favorites" , "isFavorated"],  // Ensure it is being saved
+
+};
 
 // Create a persisted reducer
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 const persisteAnnoncesReducer = persistReducer(persistAnnoncesConfig, annoncesReducer);
 const persisteCategoriesReducer = persistReducer(persisteCategoriesConfig, categoriesReducer);
+const persisteFavoritesReducer = persistReducer(persisteFavoritesConfig, favoritesReducer);
 
 // Configure store
 export const store = configureStore({
@@ -41,6 +49,7 @@ export const store = configureStore({
         auth: persistedAuthReducer ,
         annonces : persisteAnnoncesReducer,
         categories : persisteCategoriesReducer,
+        favorites : persisteFavoritesReducer,
     }
     ,
     middleware: (getDefaultMiddleware) =>

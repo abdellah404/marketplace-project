@@ -74,13 +74,13 @@ export function Navigation() {
                       <li className="nav-item">
                         <Link
                         className="dropdown-item"
-                          to="/app/profile/my-favourites"
+                          to="/app/profile/favorites"
                           style={{ textDecoration: "none" }}
                         >
                           <i className="bi bi-heart me-2"></i> My Favourites
                         </Link>
                       </li>
-                      <Link className="dropdown-item" to="/app/my-posts">
+                      <Link className="dropdown-item" to="/app/profile/posts">
                         <i className="bi bi-stickies me-2"></i> My Posts
                       </Link>
                     </li>
@@ -109,7 +109,7 @@ export function Navigation() {
               )}
 
               <li className="nav-item">
-                <Link to="/app/new-post">
+                <Link to="/app/post">
                   <div className="btn btn-danger bg-red ">
                     <i className="bi bi-plus-circle me-2"></i>
                     Publier une annonce

@@ -1,9 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import { getAllAnnonces , addNewAnnonce } from "../store/annoncesSlice.js";
-import { getAnnoncesById , getAnnonceDetailsById } from "../store/annoncesSlice.js";
+import { getAnnoncesById , getAnnonceDetailsById , get_MyAnnonces } from "../store/annoncesSlice.js";
 
 const useAnnonces = function () {
-    const { annoncesData , AnnonceDetails, AnnoncesCategory , error,loading } = useSelector((state) => state.annonces);
+    const { annoncesData , myAnnonces, AnnonceDetails,  AnnoncesCategory , error,loading } = useSelector((state) => state.annonces);
     const dispatch = useDispatch();
     const annonces = async () => {
         return dispatch(getAllAnnonces())
@@ -23,11 +23,18 @@ const useAnnonces = function () {
             .unwrap();
     }
 
+    const getMyAnnonces = async (user_id) => {
+        return dispatch(get_MyAnnonces(user_id))
+            .unwrap();
+    }
+
 
 
     return {
         annoncesData,
         AnnoncesCategory,
+        myAnnonces,
+        getMyAnnonces,
         annonces,
         addAnnonce,
         getAnnoncesByCatId,

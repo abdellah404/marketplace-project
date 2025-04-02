@@ -1,15 +1,21 @@
 import React from 'react';
-import { Navigation } from '../../pages/Navigation/Navigation';
 import { Outlet } from 'react-router';
-import ProfileNavigation from '../../pages/Profile/ProfileNavigation';
-
+import ProfileNavigation from '../../components/Navigation/ProfileNavigation';
+import './ProfileLayout.css'; // Assuming you have a CSS file for styling
 const ProfileLayout = ({ children }) => {
     return (
-        <>
-        <ProfileNavigation/>
-        <Outlet/>
-        </>
-    );
+        <div className="profile-layout">
+          {/* Sidebar */}
+          <aside className="profile-sidebar">
+            <ProfileNavigation />
+          </aside>
+    
+          {/* Main Content */}
+          <main className="profile-content">
+          <Outlet/>
+          </main>
+        </div>
+      );
 };
 
 export default ProfileLayout;

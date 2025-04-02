@@ -19,6 +19,12 @@ class AnnoncesService {
     const response = await axioService.get(`/annonces/details/${ann_id}`);
     return response.data ;
   }
+
+  
+  async getMyAnnonces(user_id) {
+    const response = await axioService.get(`/annonces/myannonces/${user_id}`);
+    return response.data ;
+  }
  
 
 

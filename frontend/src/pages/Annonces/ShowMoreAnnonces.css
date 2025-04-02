@@ -2,7 +2,7 @@
 .custom-card {
 
     margin-right: 5px;
-    flex: 0 0 calc(100%/5);
+    flex: 0 0 calc(100%/4);
     display: block;
     size-adjust:inherit;
     

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)
@@ -12,18 +13,33 @@ Route::controller(AuthController::class)
         Route::post('/login', 'login');
     });
 
-Route::controller(AnnonceController::class)
-    ->prefix('/annonces')
+Route::middleware('auth:sanctum')
+->prefix('/annonces')
+->controller(AnnonceController::class)
     ->group(function () {
         Route::get('/', 'index');
         Route::get('/{id}', action: 'getAnnoncesByCategoryId');
         Route::get('/details/{id}', action: 'getAnnonceDetails');
+        Route::get('/myannonces/{user_id}', 'getMyAnnonces');
+        Route::post('/', 'store');
     });
 
+
 Route::controller(CategoryController::class)
+
     ->prefix('/categories')
+
     ->group(function () {
         Route::get('/', 'index');
+    });
+
+   Route::middleware('auth:sanctum')
+    ->prefix('/favorites')
+    ->controller(FavoriteController::class)
+    ->group(function () {
+        Route::post('/add', 'addFavorite');
+        Route::delete('/{annonce_id}/remove', 'removeFavorite');
+        Route::get('/isfavorited/{annonce_id}', 'isFavorited');
     });
 
 // Protected routes (require valid token)

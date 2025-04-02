@@ -53,8 +53,21 @@ export const getAnnonceDetailsById = createAsyncThunk("annonces/getAnnonceDetail
 }
 );
 
+export const get_MyAnnonces = createAsyncThunk("annonces/get_MyAnnonces",async (user_id, thunkAPI) => {
+  try {
+    const data = await AnnoncesService.getMyAnnonces(user_id);
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data || error.message || "fetching annonces failed"
+    );
+  }
+}
+);
+
 const initialState = {
   annoncesData: [],
+  myAnnonces: [],
   AnnoncesCategory: [],
   AnnonceDetails : [],
   error: null,
@@ -95,7 +108,18 @@ const annoncesSlice = createSlice({
       .addCase(getAnnonceDetailsById.fulfilled, (state, action) => {
         state.AnnonceDetails = action.payload.data ;
       }
-      );
+      )
+
+      // fetch my annonces
+      .addCase(get_MyAnnonces.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(get_MyAnnonces.fulfilled, (state, action) => {
+        state.myAnnonces = action.payload.data;
+      })
+      .addCase(get_MyAnnonces.rejected, (state, action) => {
+        state.error = action.payload;
+      })
   },
 });
 

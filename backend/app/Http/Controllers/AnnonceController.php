@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
+use App\Models\Favorite;
+use Auth;
 use Illuminate\Http\Request;
+use Log;
 
 class AnnonceController extends Controller
 {
@@ -42,7 +45,7 @@ class AnnonceController extends Controller
                 'city' => $request->city,
                 'isActive' => $request->isActive,
                 'isValidated' => $request->isValidated,
-                'user_id' => $request->user_id,
+                'user_id' => Auth::id(),
                 'image' => asset('storage/' . $imagePath), // Assurez-vous que l'URL est correcte
             ]);
 
@@ -76,25 +79,26 @@ class AnnonceController extends Controller
         $data = Annonce::where('id', $id)->with('user:id,name', 'category:id,name')->get();
 
         return response()->json([
+            'data' => $data
+                ]);
+    }
+
+    //get my annonces
+
+    public function getMyAnnonces($user_id)
+
+    {
+
+
+        $data = Annonce::where('user_id',  $user_id)->with('user:id,name', 'category:id,name')->get();
+
+        return response()->json([
             'data' => $data,
-        ]);
+            'query' => \DB::getQueryLog(), // Log the query for debugging
+
+                ]);
     }
 
 
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Annonce $annonce)
-    {
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Annonce $annonce)
-    {
-        //
-    }
 }

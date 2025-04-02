@@ -1,30 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import useAnnonces from "../../hooks/useAnnonces";
-import { formatDistanceToNow } from "date-fns";
+import { add, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
+import useFavorites from "../../hooks/useFavorites";
 
 const DetailsPage = () => {
+  const {addFavorite , isFavorated , checkFavorited, deleteFavorite } = useFavorites()
   const navigate = useNavigate();
-  const { getAnnonceDetails, AnnonceDetails } = useAnnonces();
+  const { getAnnonceDetails , AnnonceDetails } = useAnnonces();
   const { id } = useParams();
   const annonce_id = Number(id);
   const [isFavorite, setIsFavorite] = useState(false);
+  const favoriteData = {
+    annonce_id: annonce_id, // The annonce ID
+  };
 
   useEffect(() => {
     const fetchAnnonceDetails = async () => {
       try {
         await getAnnonceDetails(annonce_id);
+     await checkFavorited(annonce_id);
+        setIsFavorite(isFavorated); // Set the initial favorite state
+        console.log(isFavorated);
+        
       } catch (error) {
         console.error("Error fetching:", error);
       }
     };
 
     fetchAnnonceDetails();
-  }, [annonce_id]);
+  }, [annonce_id , isFavorated ]);
 
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
+  const handleFavoriteClick = async() => {
+   
+    try {
+
+      if (isFavorite) {
+        // If already a favorite, delete it
+        await deleteFavorite(annonce_id);
+
+        console.log("Favorite removed");
+      } else {
+        // If not a favorite, add it
+       
+        await addFavorite(favoriteData);
+        console.log("Favorite added");
+      }
+  
+      // Toggle the favorite state
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("Error handling favorite click:", error);
+    }
+  
+    
   };
 
   const handleBackClick = () => {
