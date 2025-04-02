@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import { getAllAnnonces , addNewAnnonce } from "../store/annoncesSlice.js";
-import { getAnnoncesById , getAnnonceDetailsById , get_MyAnnonces } from "../store/annoncesSlice.js";
+import { getAnnoncesById , getAnnonceDetailsById , get_MyAnnonces  , update_Annonce} from "../store/annoncesSlice.js";
 
 const useAnnonces = function () {
     const { annoncesData , myAnnonces, AnnonceDetails,  AnnoncesCategory , error,loading } = useSelector((state) => state.annonces);
@@ -28,12 +28,19 @@ const useAnnonces = function () {
             .unwrap();
     }
 
+    // update annonce
+    const updateAnnonce = async (formData) => {
+        return dispatch(update_Annonce(formData))
+            .unwrap();
+    }
+   
 
 
     return {
         annoncesData,
         AnnoncesCategory,
         myAnnonces,
+        updateAnnonce,
         getMyAnnonces,
         annonces,
         addAnnonce,

@@ -17,11 +17,15 @@ Route::middleware('auth:sanctum')
 ->prefix('/annonces')
 ->controller(AnnonceController::class)
     ->group(function () {
+
         Route::get('/', 'index');
         Route::get('/{id}', action: 'getAnnoncesByCategoryId');
         Route::get('/details/{id}', action: 'getAnnonceDetails');
         Route::get('/myannonces/{user_id}', 'getMyAnnonces');
         Route::post('/', 'store');
+        Route::post('/update/{annonce}', 'update');
+        Route::delete('/delete/{id}', 'destroy');
+
     });
 
 

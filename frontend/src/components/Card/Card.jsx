@@ -67,7 +67,7 @@ export default function Card({
                 className="dropdown-menu dropdown-menu-end"
               >
                 <li>
-                  <Link className="dropdown-item" to={`/app/annonces/edit/${id}`}>
+                  <Link className="dropdown-item" to={`/app/profile/annonces/edit/${id}`}>
                     <i className="bi bi-pencil me-2"></i> Modifier
                   </Link>
                 </li>
@@ -82,7 +82,7 @@ export default function Card({
         </div>
         <div className="image-container">
           <img
-            src="https://picsum.photos/200/300"
+            src={image}
             className="card-img-top"
             alt={title}
           />

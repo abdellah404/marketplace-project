@@ -26,6 +26,11 @@ class AnnoncesService {
     return response.data ;
   }
  
+  // update annonce
+  async updateAnnonce(formData) {
+    const response = await axioService.post(`/annonces/update/${formData.get("id")}`, formData);
+    return response.data ;
+  }
 
 
 }

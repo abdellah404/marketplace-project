@@ -21,7 +21,6 @@ class AnnonceController extends Controller
         ]);
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -35,7 +34,7 @@ class AnnonceController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->storeAs('uploads', 'annonces', 'public');
+            $imagePath = $request->file('image')->store('uploads', 'public');
 
             Annonce::create([
                 'title' => $request->title,
@@ -72,33 +71,84 @@ class AnnonceController extends Controller
         ]);
     }
 
-
     //get annonce details by id
     public function getAnnonceDetails($id)
     {
         $data = Annonce::where('id', $id)->with('user:id,name', 'category:id,name')->get();
 
         return response()->json([
-            'data' => $data
-                ]);
+            'data' => $data,
+        ]);
     }
 
     //get my annonces
 
     public function getMyAnnonces($user_id)
-
     {
-
-
-        $data = Annonce::where('user_id',  $user_id)->with('user:id,name', 'category:id,name')->get();
+        $data = Annonce::where('user_id', $user_id)->with('user:id,name', 'category:id,name')->get();
 
         return response()->json([
             'data' => $data,
             'query' => \DB::getQueryLog(), // Log the query for debugging
-
-                ]);
+        ]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Annonce $annonce)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'city' => 'required|string|max:255',
+        ]);
 
 
+       // Handle the image upload if a new image is provided
+    if ($request->hasFile('image')) {
+        // Delete the old image if it exists
+        if ($annonce->image) {
+            $oldImagePath = str_replace(asset('storage/'), '', $annonce->image);
+            \Storage::disk('public')->delete($oldImagePath);
+        }
+
+        // Store the new image
+        $imagePath = $request->file('image')->store('uploads', 'public');
+        $annonce->image = asset('storage/' . $imagePath); // Assign the new image URL
+    }
+
+    // Update the annonce with the request data
+    $annonce->update([
+        'title' => $request->title,
+        'description' => $request->description,
+        'category_id' => $request->category_id,
+        'price' => $request->price,
+        'city' => $request->city,
+    ]);
+
+
+    // Save the new image URL if it was updated
+    if ($request->hasFile('image')) {
+        $annonce->save();
+    }
+    
+    return response()->json([
+        'message' => 'Annonce mise à jour avec succès',
+        'data' => $annonce,
+    ]);
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Annonce $annonce)
+    {
+        $annonce->delete();
+
+        return response()->json([
+            'message' => 'Annonce supprimée avec succès',
+        ]);
+    }
 }

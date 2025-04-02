@@ -65,6 +65,21 @@ export const get_MyAnnonces = createAsyncThunk("annonces/get_MyAnnonces",async (
 }
 );
 
+//update annonce
+export const update_Annonce = createAsyncThunk("annonces/updateAnnonce",async (formData, thunkAPI) => {
+  try {
+    const data = await AnnoncesService.updateAnnonce(formData);
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data || error.message || "updating annonce failed"
+    );
+  }
+}
+);
+
+
+
 const initialState = {
   annoncesData: [],
   myAnnonces: [],
@@ -120,6 +135,16 @@ const annoncesSlice = createSlice({
       .addCase(get_MyAnnonces.rejected, (state, action) => {
         state.error = action.payload;
       })
+
+      // update annonce
+      .addCase(update_Annonce.pending, (state) => {
+        state.error = null;
+      })
+
+      
+      .addCase(update_Annonce.rejected, (state, action) => {
+        state.error = action.payload;
+      });
   },
 });
 

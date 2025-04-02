@@ -60,10 +60,6 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute element={<CreateAnnonce />} />,
       },
       {
-        path: "/app/annonces/edit/:id",
-        element: <ProtectedRoute element={<ModifyAnnonce />} />,
-      },
-      {
         path: "/app/profile",
         element: <ProtectedRoute element={<ProfileLayout />} />,
         children: [
@@ -78,6 +74,10 @@ export const router = createBrowserRouter([
           {
             path: "/app/profile/posts",
             element: <Annonces />,
+          },
+          {
+            path: "/app/profile/annonces/edit/:id",
+            element: <ProtectedRoute element={<ModifyAnnonce />} />,
           },
         ],
       },
