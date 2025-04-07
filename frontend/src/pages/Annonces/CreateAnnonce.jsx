@@ -87,7 +87,7 @@ const CreateAnnonce = () => {
 
   const RenderButton = () => {
     return (
-      <div className="d-flex justify-content-between mt-4">
+      <div className="d-flex justify-content-between mt-5">
         {formStep > 0 && (
           <button
             type="button"
@@ -123,9 +123,9 @@ const CreateAnnonce = () => {
 
   return (
     <form method="post" onSubmit={handleSubmit(onSubmit)}>
-      <div className="container mt-5">
+      <div className="container">
         <div className="row justify-content-center">
-          <div className="col-md-6">
+          <div className="col-md-6 mt-5">
             <div className="register-card p-4 border rounded-3 shadow-sm bg-white">
               <h2 className="text-center mb-4 fw-bold text-secondary text-uppercase">
                 Publier une annonce

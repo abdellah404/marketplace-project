@@ -7,10 +7,12 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Outlet } from "react-router";
+import useTheme from "../../hooks/useTheme.js";
 
 export function Login() {
   const { error, login , isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme(); // Access the isDarkMode state
 
   const userSchema = Yup.object({
     email: Yup.string().email().required("email is required"),
@@ -48,9 +50,9 @@ export function Login() {
     <>
       {isAuthenticated && <Navigate to="/app"></Navigate>}
       <form action="post" onSubmit={handleSubmit(onSubmit)}>
-        <div className="container mt-5">
+        <div className="container ">
           <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-4">
+            <div className="col-md-6 col-lg-4 mt-5">
               <div className="login-card p-4 border rounded">
                 <h2 className="text-center mb-4 font-weight-bold">Login</h2>
                 <div className="mb-3">
@@ -85,7 +87,13 @@ export function Login() {
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-dark w-100 mb-3"
+                  className={`btn w-100 mb-3 ${
+                    isDarkMode ? "btn-dark-purple" : "btn-primary"
+                  }`} // Dynamic button styles
+                  style={{
+                    backgroundColor: isDarkMode ? "#6a0dad" : "black", // Dark purple for dark mode
+                    color: isDarkMode ? "#ffffff" : "white",
+                  }}
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}

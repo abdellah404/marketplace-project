@@ -1,8 +1,10 @@
+
 import React from "react";
-import "./Card.css";
 import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Link, useNavigate } from "react-router";
+import useTheme from "../../hooks/useTheme";
+import "./Card.css"; // Import your CSS file for custom styles
 
 export default function Card({
   title,
@@ -14,11 +16,10 @@ export default function Card({
   more_options,
 }) {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
 
   const truncateText = (text, maxLength) => {
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
+    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
   };
 
   const handleCardClick = () => {
@@ -33,65 +34,84 @@ export default function Card({
   };
 
   return (
-    <div
-      className="col-lg-12 d-flex"
-      onClick={more_options ? null : handleCardClick}
-      style={{ cursor: "pointer" }}
-    >
-      <div className="card h-100 d-flex flex-column">
-        <div className="container d-flex align-items-center mt-3">
-          <img
-            src="https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png"
-            alt="User Icon"
-            className="user-icon"
-          />
-          <div>
-            <div className="username">{username}</div>
-            <small className="text-muted">{getTimeAgo(timeAgo)}</small>
-          </div>
-          
-
-          {/* Dropdown for more options */}
-
-          { more_options && (
-            <div className="dropdown ms-auto">
-              <button
-                className="btn btn-transparent"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i className="bi bi-three-dots"></i>
-              </button>
-              <ul
-                className="dropdown-menu dropdown-menu-end"
-              >
-                <li>
-                  <Link className="dropdown-item" to={`/app/profile/annonces/edit/${id}`}>
-                    <i className="bi bi-pencil me-2"></i> Modifier
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item text-danger"  to={`/app/annonces/delete/${id}`} >
-                    <i className="bi bi-trash me-2"></i> Delete
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
-        <div className="image-container">
-          <img
-            src={image}
-            className="card-img-top"
-            alt={title}
-          />
-        </div>
-        <div className="card-body d-flex flex-column">
-          <h5 className="card-title">{truncateText(title, 40)}</h5>
-          <p className="card-text text-muted">{price} DH</p>
-        </div>
+    <div 
+  className="col-lg-12 mb-4"
+  onClick={more_options ? null : handleCardClick}
+  style={{ cursor: more_options ? "default" : "pointer" }}
+>
+  <div className={`card h-100 ${isDarkMode ? "bg-dark text-white border-secondary" : ""}`}>
+    {/* Card Header */}
+    <div className="card-header bg-transparent d-flex align-items-center border-0">
+      {/* Remove border using `border-0` */}
+      <img
+        src="https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png"
+        alt="User Icon"
+        className={`rounded-circle border ${isDarkMode ? "border-light" : "border-dark"}`}
+        style={{ width: "40px", height: "40px", objectFit: "cover" }}
+      />
+      <div className="ms-2">
+        <div className={` ${isDarkMode ? "text-white" : ""}`}>{username}</div>
+        <small className={`${isDarkMode ? "text-white-50" : "text-muted"}`}>
+          {getTimeAgo(timeAgo)}
+        </small>
       </div>
+
+      {/* Dropdown Menu */}
+      {more_options && (
+        <div className="dropdown ms-auto">
+          <button
+            className={`btn btn-sm ${isDarkMode ? "text-white" : "text-dark"}`}
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i className="bi bi-three-dots"></i>
+          </button>
+          <ul
+            className={`dropdown-menu dropdown-menu-end ${
+              isDarkMode ? "bg-dark text-white border-secondary" : "bg-white text-dark"
+            }`} // Customize dropdown for dark mode
+          >
+            <li>
+              <Link
+                className={`dropdown-item ${isDarkMode ? "text-white" : "text-dark"}`}
+                to={`/app/profile/annonces/edit/${id}`}
+              >
+                <i className="bi bi-pencil me-2"></i> Modifier
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="dropdown-item text-danger"
+                to={`/app/annonces/delete/${id}`}
+              >
+                <i className="bi bi-trash me-2"></i> Delete
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
+
+    {/* Card Image */}
+    <div className=" image-container ratio ratio-4x3">
+      <img 
+        src={image} 
+        className="card-img-top object-fit-cover" 
+        alt={title} 
+      />
+    </div>
+
+    {/* Card Body */}
+    <div className="card-body">
+      <h5 className={`card-title ${isDarkMode ? "text-white" : ""}`}>
+        {truncateText(title, 40)}
+      </h5>
+      <p className={`card-text ${isDarkMode ? "text-white-50" : "text-muted"}`}>
+        {price} DH
+      </p>
+    </div>
+  </div>
+</div>
   );
 }

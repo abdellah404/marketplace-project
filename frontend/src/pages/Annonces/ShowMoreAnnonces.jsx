@@ -17,11 +17,11 @@ const ShowMoreAnnonces = () => {
     }, [categoryId]);
 
     return (
-        <div className="container mt-5 mb-5">
-            <div className="row">
+        <div className="container">
+            <div className="row ">
                 {AnnoncesCategory && AnnoncesCategory.length > 0 ? (
                     AnnoncesCategory.map((annonce, index) => (
-                        <div className="col-md-4 custom-card mt-2" key={index}>
+                        <div className="col-md-4 show-custom-card mt-5 ms-5" key={index}>
                             <Card
                                 username={annonce.user.name}
                                 timeAgo={annonce.created_at}

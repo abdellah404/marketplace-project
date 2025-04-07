@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CitiesMorocco } from "../Annonces/data";
 import useAnnonces from "../../hooks/useAnnonces";
 import useCategories from "../../hooks/useCategories";
+import useTheme from "../../hooks/useTheme";
 
 const ModifyAnnonce = () => {
   const { user } = useAuth();
@@ -17,6 +18,7 @@ const ModifyAnnonce = () => {
   const { getAnnonceDetails, AnnonceDetails, updateAnnonce } = useAnnonces();
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
+  const {isDarkMode} = useTheme()
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -113,15 +115,15 @@ const ModifyAnnonce = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 ">
       <div className="row justify-content-center">
         <div className="col-md-6">
           <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
             ← Retour
           </button>
-          <div className="card">
+          <div className={`card ${isDarkMode ? "bg-secondary text-light" : ""}`}>
             <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)}  >
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Titre

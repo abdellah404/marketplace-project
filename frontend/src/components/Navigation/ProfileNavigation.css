@@ -10,3 +10,16 @@
 }
 
 
+  /* Dark mode styles */
+.dark-sidebar .sidebar {
+  background-color: #212529;
+  border-right: 1px solid #495057;
+}
+
+.dark-sidebar .nav-link:not(.active) {
+  color: #e9ecef !important;
+}
+
+.dark-sidebar .nav-link:hover:not(.active) {
+  background-color: #495057;
+}

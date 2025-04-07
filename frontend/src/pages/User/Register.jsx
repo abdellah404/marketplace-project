@@ -54,7 +54,7 @@ export function Register() {
       <form method="post" onSubmit={handleSubmit(onSubmit)}>
         <div className="container mt-3">
           <div className="row justify-content-center">
-            <div className="col-md-4 col-lg-4">
+            <div className="col-md-4 col-lg-4 mt-5">
               <div className="register-card p-4 border rounded">
                 <h2 className="text-center mb-4 font-weight-bold">Register</h2>
                 <div className="mb-3">

@@ -6,7 +6,11 @@ class AnnoncesService {
     return response.data ;
   }
   async addAnnonce(annonceFormData) {
-    const response = await axioService.post("/annonces",annonceFormData);
+    const response = await axioService.post("/annonces",annonceFormData , {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data ;
   }
 
@@ -28,7 +32,13 @@ class AnnoncesService {
  
   // update annonce
   async updateAnnonce(formData) {
-    const response = await axioService.post(`/annonces/update/${formData.get("id")}`, formData);
+    const response = await axioService.post(`/annonces/update/${formData.get("id")}`, formData , {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    
     return response.data ;
   }
 

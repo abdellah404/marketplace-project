@@ -5,62 +5,84 @@ import storage from "redux-persist/lib/storage"; // Uses localStorage
 import annoncesReducer from "./annoncesSlice.js";
 import categoriesReducer from "./categoriesSlice.js";
 import favoritesReducer from "./favoritesSlice.js";
-import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist/es/constants";
-
+import themesReducer from "./themesSlice.js"; // Import themeReducer
+import {
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist/es/constants";
 
 // Persist configuration
 const persistConfig = {
-    key: "auth",
-    storage,  // You can replace with sessionStorage if needed
- // Exclude sensitive data
-
+  key: "auth",
+  storage,
 };
 
 const persistAnnoncesConfig = {
-    key: "annonces",
-    storage,
-    whitelist: ["annoncesData", "AnnoncesCategory" , "AnnonceDetails" , "myAnnonces"],  // Ensure it is being saved
-
+  key: "annonces",
+  storage,
+  whitelist: [
+    "annoncesData",
+    "AnnoncesCategory",
+    "AnnonceDetails",
+    "myAnnonces",
+  ], // Ensure it is being saved
 };
 
 const persisteCategoriesConfig = {
-    key: "categories",
-    storage,
-    whitelist: ["categoriesData"],  // Ensure it is being saved
-
+  key: "categories",
+  storage,
+  whitelist: ["categoriesData"],
 };
 
 const persisteFavoritesConfig = {
-    key: "favorites",
-    storage,
-    whitelist: ["favorites" , "isFavorated"],  // Ensure it is being saved
-
+  key: "favorites",
+  storage,
+  whitelist: ["favorites", "isFavorated"],
 };
 
-// Create a persisted reducer
+// Theme persist configuration
+const persistThemeConfig = {
+  key: "theme",
+  storage,
+  whitelist: ["isDarkMode"], // Persist only the isDarkMode state
+};
+
+// Create persisted reducers
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
-const persisteAnnoncesReducer = persistReducer(persistAnnoncesConfig, annoncesReducer);
-const persisteCategoriesReducer = persistReducer(persisteCategoriesConfig, categoriesReducer);
-const persisteFavoritesReducer = persistReducer(persisteFavoritesConfig, favoritesReducer);
+const persisteAnnoncesReducer = persistReducer(
+  persistAnnoncesConfig,
+  annoncesReducer
+);
+const persisteCategoriesReducer = persistReducer(
+  persisteCategoriesConfig,
+  categoriesReducer
+);
+const persisteFavoritesReducer = persistReducer(
+  persisteFavoritesConfig,
+  favoritesReducer
+);
+const persisteThemeReducer = persistReducer(persistThemeConfig, themesReducer); // Persist themeReducer
 
 // Configure store
 export const store = configureStore({
-    reducer: {
-        auth: persistedAuthReducer ,
-        annonces : persisteAnnoncesReducer,
-        categories : persisteCategoriesReducer,
-        favorites : persisteFavoritesReducer,
-    }
-    ,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Ignore redux-persist actions
-            },
-        }),
+  reducer: {
+    auth: persistedAuthReducer,
+    annonces: persisteAnnoncesReducer,
+    categories: persisteCategoriesReducer,
+    favorites: persisteFavoritesReducer,
+    theme: persisteThemeReducer, // Add theme reducer here
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // Ignore redux-persist actions
+      },
+    }),
 });
-
-
 
 // Create a persistor
 export const persistor = persistStore(store);

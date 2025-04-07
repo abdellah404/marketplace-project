@@ -4,57 +4,45 @@ import useAnnonces from "../../hooks/useAnnonces";
 import { add, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import useFavorites from "../../hooks/useFavorites";
+import useTheme from "../../hooks/useTheme";
 
 const DetailsPage = () => {
-  const {addFavorite , isFavorated , checkFavorited, deleteFavorite } = useFavorites()
+  const { addFavorite, isFavorated, checkFavorited, deleteFavorite } = useFavorites();
   const navigate = useNavigate();
-  const { getAnnonceDetails , AnnonceDetails } = useAnnonces();
+  const { getAnnonceDetails, AnnonceDetails } = useAnnonces();
   const { id } = useParams();
+  const { isDarkMode } = useTheme();
   const annonce_id = Number(id);
   const [isFavorite, setIsFavorite] = useState(false);
   const favoriteData = {
-    annonce_id: annonce_id, // The annonce ID
+    annonce_id: annonce_id,
   };
 
   useEffect(() => {
     const fetchAnnonceDetails = async () => {
       try {
         await getAnnonceDetails(annonce_id);
-     await checkFavorited(annonce_id);
-        setIsFavorite(isFavorated); // Set the initial favorite state
-        console.log(isFavorated);
-        
+        await checkFavorited(annonce_id);
+        setIsFavorite(isFavorated);
       } catch (error) {
         console.error("Error fetching:", error);
       }
     };
 
     fetchAnnonceDetails();
-  }, [annonce_id , isFavorated ]);
+  }, [annonce_id, isFavorated]);
 
-  const handleFavoriteClick = async() => {
-   
+  const handleFavoriteClick = async () => {
     try {
-
       if (isFavorite) {
-        // If already a favorite, delete it
         await deleteFavorite(annonce_id);
-
-        console.log("Favorite removed");
       } else {
-        // If not a favorite, add it
-       
         await addFavorite(favoriteData);
-        console.log("Favorite added");
       }
-  
-      // Toggle the favorite state
       setIsFavorite(!isFavorite);
     } catch (error) {
       console.error("Error handling favorite click:", error);
     }
-  
-    
   };
 
   const handleBackClick = () => {
@@ -69,13 +57,17 @@ const DetailsPage = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
+   <>
+    <div className={`container mt-5 bg-${isDarkMode ? "dark" : "light"} p-4 rounded`}>
+      <button 
+        className={`btn ${isDarkMode ? "btn-outline-light" : "btn-secondary"} mb-3 mt-5`} 
+        onClick={handleBackClick}
+      >
         ← Retour
       </button>
 
       {AnnonceDetails && AnnonceDetails.length > 0 && (
-        <div className="card shadow-sm p-3">
+        <div className={`card ${isDarkMode ? "bg-dark text-light border-light" : "shadow-sm"} p-3`}>
           <div className="row">
             {/* Images de l'annonce */}
             <div className="col-md-6">
@@ -96,7 +88,7 @@ const DetailsPage = () => {
                 <button
                   className="btn btn-link p-0"
                   onClick={handleFavoriteClick}
-                  style={{ color: isFavorite ? "red" : "gray" }}
+                  style={{ color: isFavorite ? "red" : isDarkMode ? "#adb5bd" : "#6c757d" }}
                 >
                   <i
                     className={`bi ${
@@ -107,37 +99,37 @@ const DetailsPage = () => {
               </div>
 
               <div>
-                <p className="text-muted">
+                <p className={isDarkMode ? "text-light" : "text-muted"}>
                   {AnnonceDetails[0].city} -{" "}
                   {getTimeAgo(AnnonceDetails[0].created_at)}
                 </p>
-                <h3 className="text-primary fw-bold">
+                <h3 className="text-primary fw-semibold">
                   {AnnonceDetails[0].price.toLocaleString()} DH
                 </h3>
                 <p>{AnnonceDetails[0].description}</p>
               </div>
 
               {/* Informations du vendeur */}
-              <div className="d-flex align-items-center border-top pt-3">
+              <div className={`d-flex align-items-center border-top pt-3 ${isDarkMode ? "border-light" : ""}`}>
                 <img
                   src="https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png"
                   alt="User Icon"
-                  className="rounded-circle me-2"
+                  className={`rounded-circle border me-1 ${isDarkMode ? "border-light" : "border-dark"}`}
                   style={{ width: "50px", height: "50px" }}
                 />
                 <div>
                   <div className="fw-bold">{AnnonceDetails[0].user.name}</div>
-                  <a href="#" className="text-decoration-none">
+                  <a href="#" className={`text-decoration-none ${isDarkMode ? "text-light" : "text-primary"}`}>
                     Voir la boutique
                   </a>
                 </div>
 
                 {/* Boutons de contact */}
                 <div className="d-flex justify-content-end ms-auto">
-                  <button className="btn btn-outline-warning  me-2">
-                    <i class="bi bi-chat"></i>{" "}
+                  <button className={`btn ${isDarkMode ? "btn-outline-light" : "btn-outline-warning"} me-2`}>
+                    <i className="bi bi-chat"></i>{" "}
                   </button>
-                  <button className="btn btn-primary me-2">
+                  <button className={`btn ${isDarkMode ? "btn-secondary" : "btn-primary"} me-2`}>
                     <i className="bi bi-telephone"></i> Appeler
                   </button>
                 </div>
@@ -147,6 +139,7 @@ const DetailsPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

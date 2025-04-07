@@ -5,10 +5,12 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CitiesMorocco } from '../Annonces/data';
+import useTheme from '../../hooks/useTheme';
 
 const ProfileSettings = () => {
     const { user, updateAuthUser } = useAuth();
     const navigate = useNavigate();
+    const {isDarkMode} = useTheme()
 
     const userSchema = Yup.object({
         name: Yup.string().required('Name is required'),
@@ -55,8 +57,8 @@ const ProfileSettings = () => {
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-body">
+                <div className={`card ${isDarkMode ? "bg-secondary text-light" : ""}`}>
+                <div className="card-body">
                             {(
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="mb-3">
@@ -75,7 +77,7 @@ const ProfileSettings = () => {
 
                                     <div className="mb-3">
                                         <label htmlFor="email" className="form-label">
-                                            Email
+                                            Email (non modifiable)
                                         </label>
                                         <input
                                             id="email"

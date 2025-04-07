@@ -3,7 +3,7 @@ import useAnnonces from '../../hooks/useAnnonces';
 import useAuth from '../../hooks/useAuth';
 import { useParams } from 'react-router';
 import Card from '../../components/Card/Card';
-import '../Annonces/ShowMoreAnnonces.css';
+
 
 const Annonces = () => {
   
@@ -35,7 +35,7 @@ const Annonces = () => {
                 <div className="row">
                     {myAnnonces && myAnnonces.length > 0 ? (
                         myAnnonces.map((annonce, index) => (
-                            <div className="col-md-4 custom-card mt-2" key={index}>
+                            <div className="col-md-4 mt-2" key={index}>
                                 
                                 <Card
                                     username={annonce.user.name}
