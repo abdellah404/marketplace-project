@@ -13,7 +13,7 @@ const AdminSideBar = () => {
                 <ul className="nav nav-pills flex-column mb-auto mt-4">
                     <li className="nav-item mb-2">
                         <NavLink
-                            to="/app/profile/settings"
+                            to="/admin/users"
                             className={({ isActive }) =>
                                 `nav-link fw-semibold ${isActive 
                                     ? 'active' 
@@ -21,12 +21,12 @@ const AdminSideBar = () => {
                             }
                         >
                             <i className={`bi bi-gear me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
-                            Profile Settings
+                            Utilisateurs
                         </NavLink>
                     </li>
                     <li className="nav-item mb-2">
                         <NavLink
-                            to="/app/profile/posts"
+                            to="/admin/annonces"
                             className={({ isActive }) =>
                                 `nav-link fw-semibold ${isActive 
                                     ? 'active' 
@@ -34,22 +34,10 @@ const AdminSideBar = () => {
                             }
                         >
                             <i className={`bi bi-grid me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
-                            My Posts
+                            Les Annonces
                         </NavLink>
                     </li>
-                    <li className="nav-item mb-2">
-                        <NavLink
-                            to="/app/profile/favorites"
-                            className={({ isActive }) =>
-                                `nav-link fw-semibold ${isActive 
-                                    ? 'active' 
-                                    : isDarkMode ? 'text-light' : 'nav-link link-dark'}`
-                            }
-                        >
-                            <i className={`bi bi-heart me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
-                            Favorites
-                        </NavLink>
-                    </li>
+                   
                 </ul>
             </div>
         </div>

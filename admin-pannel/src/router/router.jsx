@@ -7,5 +7,16 @@ export const router = createBrowserRouter([
   {
     path: "/admin",
     element: <IndexAdmin />,
+    children: [
+      {
+        path: "/admin/users",
+        element: <><h1>users</h1></>,
+      },
+      {
+        path: "/admin/annonces",
+        element: <><h1>annonces</h1></>,
+      },
+      
+    ],
   }
 ]);
