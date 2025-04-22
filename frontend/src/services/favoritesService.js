@@ -8,7 +8,7 @@ class favoritesService {
   }
 
   async getFavorites() {
-    const response = await axioService.get(`/favorites`);
+    const response = await axioService.get("/favorites/get-favs");
     return response.data ;
   }
 

@@ -143,7 +143,9 @@ export function Register() {
                 </button>
                 <p className="mt-4 text-center">
                   Already a member?{" "}
-                  <a href="/app/login" className="text-primary">
+                  <a href="/app/login"
+                    className="text-primary  text-decoration-none"
+                    >
                     Login
                   </a>
                 </p>

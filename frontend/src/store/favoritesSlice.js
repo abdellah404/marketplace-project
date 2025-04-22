@@ -90,7 +90,13 @@ const favoritesSlice = createSlice({
       })
       .addCase(is_Favorated.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+
+      // get favs
+      .addCase(get_Favorites.fulfilled, (state, action) => {
+        state.favorites = action.payload.data;
+      })
+
   },
 
 });

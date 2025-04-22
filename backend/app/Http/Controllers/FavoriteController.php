@@ -35,8 +35,10 @@ class FavoriteController extends Controller
     // Get user's favorites
     public function getFavorites()
     {
-        $favorites = Favorite::where('user_id', Auth::id())->with('annonce')->get();
-        return response()->json($favorites);
+        $favorites = Favorite::where('user_id', Auth::id())
+                     ->with(['annonce', 'annonce.user:id,name'])
+                     ->get();
+        return response()->json(['data' => $favorites]);
     }
 
     // Remove from favorites

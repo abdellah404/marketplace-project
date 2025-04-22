@@ -10,7 +10,7 @@ import { Outlet } from "react-router";
 import useTheme from "../../hooks/useTheme.js";
 
 export function Login() {
-  const { error, login , isAuthenticated } = useAuth();
+  const { error, login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { isDarkMode } = useTheme(); // Access the isDarkMode state
 
@@ -42,8 +42,7 @@ export function Login() {
       .then((result) => {
         navigate("/app");
       })
-      .catch((err) => {})
-      
+      .catch((err) => {});
   };
 
   return (
@@ -62,7 +61,8 @@ export function Login() {
                   <input
                     id="email"
                     type="text"
-                    className="form-control shadow-none border-2 "                    placeholder="Enter your email"
+                    className="form-control shadow-none border-2 "
+                    placeholder="Enter your email"
                     {...register("email")}
                   />
                   <p className="text-danger mt-1">
@@ -77,7 +77,8 @@ export function Login() {
                   <input
                     id="password"
                     type="password"
-                    className="form-control shadow-none border-2 "                    placeholder="Enter your password"
+                    className="form-control shadow-none border-2 "
+                    placeholder="Enter your password"
                     {...register("password")}
                   />
                   <p className="text-danger mt-1">
@@ -100,7 +101,10 @@ export function Login() {
                 </button>
                 <p className="mt-4 text-center">
                   New here?{" "}
-                  <a href="/app/register" className="text-primary">
+                  <a
+                    href="/app/register"
+                    className="text-primary  text-decoration-none"
+                  >
                     Register Here
                   </a>
                 </p>

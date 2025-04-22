@@ -1,10 +1,9 @@
 import React from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
-import { Navigation } from "../components/Navigation/Navigation";
+import { Navigation } from "../components/Navigation/NavBar";
 import { Login } from "../pages/User/Login";
 import { Register } from "../pages/User/Register";
-import { IndexAdmin } from "../pages/admin/IndexAdmin";
-import Layout from "../layouts/Layout";
+import { IndexAdmin } from "../../../admin-pannel/src/pages/admin/IndexAdmin";
 import GuestLayout from "../layouts/User/GuestLayout";
 import HomePage from "../pages/HomePage/HomePage";
 import UserLayout from "../layouts/User/UserLayout";
@@ -19,10 +18,11 @@ import DetailsPage from "../pages/Annonces/DetailsPage";
 import Favorites from "../pages/Profile/Favorites";
 import Annonces from "../pages/Profile/Annonces";
 import ModifyAnnonce from "../pages/Annonces/ModifyAnnonce";
+import Chat from "../pages/ChatPage/Chat";
+import AdminLayout from "../../../admin-pannel/src/layouts/Admin/AdminLayout";
 
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated } = useAuth(); // Check user authentication
-
   return isAuthenticated ? element : <Navigate to="/app/login" replace />;
 };
 
@@ -52,6 +52,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
   {
     element: <UserLayout />,
     children: [
@@ -59,6 +60,11 @@ export const router = createBrowserRouter([
         path: "/app/post",
         element: <ProtectedRoute element={<CreateAnnonce />} />,
       },
+      {
+        path: "/app/chat/:receiverId",
+        element: <ProtectedRoute element={<Chat />} />,
+      },
+
       {
         path: "/app/profile",
         element: <ProtectedRoute element={<ProfileLayout />} />,
@@ -83,4 +89,5 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
 ]);

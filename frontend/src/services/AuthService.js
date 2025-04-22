@@ -8,6 +8,8 @@ class AuthService {
     const response = await axioService.post("/auth/login", credentials);
     return response.data;
   }
+
+  
   async register(credentials) {
     const response = await axioService.post("/auth/register", credentials);
     return response.data;

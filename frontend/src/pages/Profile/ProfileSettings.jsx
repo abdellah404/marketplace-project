@@ -59,6 +59,8 @@ const ProfileSettings = () => {
                 <div className="col-md-6">
                 <div className={`card ${isDarkMode ? "bg-secondary text-light" : ""}`}>
                 <div className="card-body">
+                <h2 className="mb-4 text-center">Update Your Profile</h2>
+
                             {(
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="mb-3">

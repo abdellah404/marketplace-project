@@ -35,11 +35,11 @@ export function Navigation() {
           : `bg-light ${scrolled ? "navbar-light-scrolled" : "navbar-light"}`
       } ${isDarkMode ? "navbar-dark-mode" : "navbar-light-mode"}`}
       id="navbar_container"
-       style={{
-           boxShadow: isDarkMode
-             ? "0 2px 5px rgba(255, 255, 255, 0.1)" 
-             : "0 2px 5px rgba(0, 0, 0, 0.1)", 
-         }}
+      style={{
+        boxShadow: isDarkMode
+          ? "0 2px 5px rgba(255, 255, 255, 0.1)"
+          : "0 2px 5px rgba(0, 0, 0, 0.1)",
+      }}
     >
       <div className="container">
         <Link to="/app" className="navbar-brand">
@@ -48,6 +48,9 @@ export function Navigation() {
             height={50}
             alt="Marketplace Logo"
             className={isDarkMode ? "logo-dark" : "logo-light"}
+            style={{
+              filter: isDarkMode ? "brightness(2.5)" : "none", // Lighten the image when dark mode is true
+            }}
           />
         </Link>
 
@@ -65,11 +68,28 @@ export function Navigation() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div
+          className="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
           <ul className="navbar-nav align-items-center">
+
+          <li className="nav-item">
+              <Link
+                className={`nav-link ${
+                  isDarkMode ? "text-light" : "text-dark"
+                }`}
+                to="/app"
+              >
+                Contact
+              </Link>
+            </li>
+
             <li className="nav-item">
               <Link
-                className={`nav-link ${isDarkMode ? "text-light" : "text-dark"}`}
+                className={`nav-link ${
+                  isDarkMode ? "text-light" : "text-dark"
+                }`}
                 to="/app"
               >
                 Home
@@ -99,7 +119,8 @@ export function Navigation() {
                       }`}
                       to="/app/profile/settings"
                     >
-                      <i className="bi bi-person-square me-2"></i> Profile Settings
+                      <i className="bi bi-person-square me-2"></i> Profile
+                      Settings
                     </Link>
                   </li>
                   <li>
@@ -148,7 +169,9 @@ export function Navigation() {
             ) : (
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${isDarkMode ? "text-light" : "text-dark"}`}
+                  className={`nav-link ${
+                    isDarkMode ? "text-light" : "text-dark"
+                  }`}
                   to="/app/login"
                 >
                   Sign In

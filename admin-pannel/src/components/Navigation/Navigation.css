@@ -1,0 +1,14 @@
+/* Navigation.css */
+#navbar_container {
+    position: fixed; /* navbar fix */
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000; /* Assure que la navbar est au-dessus des autres éléments */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+
+  }
+  
+  body {
+    margin-top: 69.5px; /* Ajuste la marge pour éviter que le contenu soit caché derrière la navbar */
+  }

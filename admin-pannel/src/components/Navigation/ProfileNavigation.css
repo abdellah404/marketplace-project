@@ -1,0 +1,25 @@
+.sidebar {
+    width: 280px; /* Fixed width for the sidebar */
+    height: 100%; /* Full height */
+    position: fixed; /* Fix the sidebar to the side */
+    top: 65px;
+    left: 0;
+
+    overflow-y: auto; /* Enable scrolling if content overflows */
+    background-color: #343a40; /* Dark background */
+}
+
+
+  /* Dark mode styles */
+.dark-sidebar .sidebar {
+  background-color: #212529;
+  border-right: 1px solid #495057;
+}
+
+.dark-sidebar .nav-link:not(.active) {
+  color: #e9ecef !important;
+}
+
+.dark-sidebar .nav-link:hover:not(.active) {
+  background-color: #495057;
+}
