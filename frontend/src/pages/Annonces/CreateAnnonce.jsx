@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import useAnnonces from "../../hooks/useAnnonces";
 import useAuth from "../../hooks/useAuth";
 import useTheme from "../../hooks/useTheme";
+import axioService from "../../services/api";
 
 const CreateAnnonce = () => {
   const { isDarkMode } = useTheme();
@@ -18,6 +19,7 @@ const CreateAnnonce = () => {
   const navigate = useNavigate();
   const { addAnnonce } = useAnnonces();
   const { user } = useAuth();
+  const [subcategories, setSubcategories] = useState([]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -60,6 +62,7 @@ const CreateAnnonce = () => {
     formState: { errors, isSubmitting, isValid },
     reset,
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(userSchema),
     mode: "onChange",
@@ -72,6 +75,18 @@ const CreateAnnonce = () => {
       user_id: user.id,
     },
   });
+
+  const selectedCategoryId = watch("category_id");
+  useEffect(() => {
+    if (selectedCategoryId) {
+      axioService
+        .get(`/subcategories/${selectedCategoryId}`)
+        .then((res) => setSubcategories(res.data))
+        .catch(() => setSubcategories([]));
+    } else {
+      setSubcategories([]);
+    }
+  }, [selectedCategoryId]);
 
   const onSubmit = async (data, event) => {
     event.preventDefault();
@@ -220,6 +235,7 @@ const CreateAnnonce = () => {
                   </div>
 
                   {/* Step 0: Category and city selection */}
+
                   {formStep === 0 && (
                     <section>
                       <div className="mb-4">
@@ -238,14 +254,48 @@ const CreateAnnonce = () => {
                           }`}
                           {...register("category_id")}
                         >
+                          <option value="">
+                            -- Sélectionnez une catégorie --
+                          </option>
                           {categoriesData.map((category) => (
-                            <option key={category.name} value={category.id}>
+                            <option key={category.id} value={category.id}>
                               {category.name}
                             </option>
                           ))}
                         </select>
                         <p className="text-danger mt-1">
                           {errors.category_id?.message}
+                        </p>
+                      </div>
+
+                      <div className="mb-4">
+                        <label
+                          htmlFor="subcategorySelect"
+                          className="form-label fw-semibold"
+                        >
+                          Sous-catégorie
+                        </label>
+                        <select
+                          id="subcategorySelect"
+                          className={`form-select ${
+                            isDarkMode
+                              ? "bg-dark text-light border-light"
+                              : "border-primary"
+                          }`}
+                          {...register("subcategory_id")}
+                        >
+                          <option value="">
+                            -- Sélectionnez une sous-catégorie --
+                          </option>
+                          {subcategories &&
+                            subcategories.map((sub) => (
+                              <option key={sub.id} value={sub.id}>
+                                {sub.name}
+                              </option>
+                            ))}
+                        </select>
+                        <p className="text-danger mt-1">
+                          {errors.subcategory_id?.message}
                         </p>
                       </div>
 
@@ -275,6 +325,8 @@ const CreateAnnonce = () => {
                           {errors.city?.message}
                         </p>
                       </div>
+
+                      
                     </section>
                   )}
 

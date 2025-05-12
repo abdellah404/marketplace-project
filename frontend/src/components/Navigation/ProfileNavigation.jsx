@@ -16,8 +16,8 @@ const ProfileNavigation = () => {
                             to="/app/profile/settings"
                             className={({ isActive }) =>
                                 `nav-link fw-semibold ${isActive 
-                                    ? 'active' 
-                                    : isDarkMode ? 'text-light' : 'nav-link link-dark'}` 
+                                    ? 'custom-active' 
+                                    : isDarkMode ? 'text-light' : 'nav-link link-dark'}`
                             }
                         >
                             <i className={`bi bi-gear me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
@@ -29,7 +29,7 @@ const ProfileNavigation = () => {
                             to="/app/profile/posts"
                             className={({ isActive }) =>
                                 `nav-link fw-semibold ${isActive 
-                                    ? 'active' 
+                                    ? 'custom-active' 
                                     : isDarkMode ? 'text-light' : 'nav-link link-dark'}`
                             }
                         >
@@ -42,12 +42,26 @@ const ProfileNavigation = () => {
                             to="/app/profile/favorites"
                             className={({ isActive }) =>
                                 `nav-link fw-semibold ${isActive 
-                                    ? 'active' 
+                                    ? 'custom-active' 
                                     : isDarkMode ? 'text-light' : 'nav-link link-dark'}`
                             }
                         >
                             <i className={`bi bi-heart me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
                             Favorites
+                        </NavLink>
+                    </li>
+
+                    <li className="nav-item mb-2">
+                        <NavLink
+                            to="/app/profile/annonces/disabled"
+                            className={({ isActive }) =>
+                                `nav-link fw-semibold ${isActive 
+                                    ? 'custom-active' 
+                                    : isDarkMode ? 'text-light' : 'nav-link link-dark'}`
+                            }
+                        >
+                            <i className={`bi bi-slash-circle me-3 ${isDarkMode ? 'text-light' : ''}`}></i>
+                            Les annonces Bloquées
                         </NavLink>
                     </li>
                 </ul>

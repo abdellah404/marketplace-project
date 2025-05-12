@@ -44,4 +44,33 @@ class ChatController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function getSenders()
+    {
+        $userId = Auth::id();
+        $senders = Message::where('receiver_id', $userId)
+            ->select('sender_id')
+            ->distinct()
+            ->with('sender')
+            ->get();
+
+        return response()->json($senders);
+    }
+
+    public function deleteMessage($senderId)
+    {
+        $userId = Auth::id();
+
+    $deleted = Message::where(function($query) use ($userId, $senderId) {
+            $query->where('sender_id', $userId)
+                  ->where('receiver_id', $senderId);
+        })
+        ->orWhere(function($query) use ($userId, $senderId) {
+            $query->where('sender_id', $senderId)
+                  ->where('receiver_id', $userId);
+        })
+        ->delete();
+
+    return response()->json(['success' => true, 'deleted' => $deleted]);
+    }
+
 }

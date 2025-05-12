@@ -14,11 +14,13 @@ class Favorite extends Model
         'annonce_id',
     ];
 
+    
 
     public function annonce()
     {
         return $this->belongsTo(Annonce::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);

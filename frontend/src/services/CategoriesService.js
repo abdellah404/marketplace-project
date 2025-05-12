@@ -6,6 +6,15 @@ class CategoriesService {
     const response = await axioService.get("/categories");
     return response.data ;
   }
+
+
+  async subcategories(categoryId) {
+    const response = await axioService.get(`/categories/${categoryId}/subcategories`);
+    return response.data;
+  }
 }
+
+
+
 
 export default new CategoriesService();

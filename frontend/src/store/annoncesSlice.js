@@ -78,6 +78,21 @@ export const update_Annonce = createAsyncThunk("annonces/updateAnnonce",async (f
 }
 );
 
+// delete annonce
+
+export const delete_Annonce = createAsyncThunk("annonces/deleteAnnonce",async (ann_id, thunkAPI) => {
+  try {
+    const data = await AnnoncesService.deleteAnnonce(ann_id);
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data || error.message || "deleting annonce failed"
+    );
+  }
+}
+);
+
+
 
 
 const initialState = {
@@ -144,7 +159,20 @@ const annoncesSlice = createSlice({
       
       .addCase(update_Annonce.rejected, (state, action) => {
         state.error = action.payload;
-      });
+      })
+
+      // delete annonce
+      .addCase(delete_Annonce.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+
+      .addCase(delete_Annonce.pending, (state) => {
+        state.error = null;
+      }
+      )
+      
+
+
   },
 });
 

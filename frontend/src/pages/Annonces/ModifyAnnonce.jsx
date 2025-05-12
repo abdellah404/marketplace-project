@@ -5,20 +5,37 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CitiesMorocco } from "../Annonces/data";
-import useAnnonces from "../../hooks/useAnnonces";
-import useCategories from "../../hooks/useCategories";
 import useTheme from "../../hooks/useTheme";
-
+import AnnoncesService from "../../services/AnnoncesService";
+import CategoriesService from "../../services/CategoriesService";
+import Loading from "../../components/Loading";
+const userSchema = Yup.object({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().required("Description is required"),
+  city: Yup.string().required("City is required"),
+  price: Yup.string().required("Price is required"),
+  image: Yup.mixed()
+    .test("fileSize", "Image must be less than 2MB", (value) => {
+      return value?.[0] ? value[0].size <= 2 * 1024 * 1024 : true;
+    })
+    .test("fileType", "Invalid image format (JPG, PNG only)", (value) => {
+      return value?.[0]
+        ? ["image/jpeg", "image/png"].includes(value[0].type)
+        : true;
+    }),
+  category_id: Yup.string().required("Please select a category"),
+});
 const ModifyAnnonce = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const annonce_id = Number(id);
 
-  const { categoriesData } = useCategories();
-  const { getAnnonceDetails, AnnonceDetails, updateAnnonce } = useAnnonces();
+  const [categoriesData, setCategoriesData] = useState([]);
   const navigate = useNavigate();
+  const [annonce, setAnnonce] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
-  const {isDarkMode} = useTheme()
+  const { isDarkMode } = useTheme();
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -28,41 +45,6 @@ const ModifyAnnonce = () => {
     }
   };
 
-  const userSchema = Yup.object({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    city: Yup.string().required("City is required"),
-    price: Yup.number()
-      .required("Price is required")
-      .positive("Price must be a positive number"),
-    image: Yup.mixed()
-      .test("fileSize", "Image must be less than 2MB", (value) => {
-        return value?.[0] ? value[0].size <= 2 * 1024 * 1024 : true;
-      })
-      .test("fileType", "Invalid image format (JPG, PNG only)", (value) => {
-        return value?.[0]
-          ? ["image/jpeg", "image/png"].includes(value[0].type)
-          : true;
-      }),
-    category_id: Yup.number().required("Please select a category"),
-  });
-
-  useEffect(() => {
-    const fetchAnnonceDetails = async () => {
-      try {
-        await getAnnonceDetails(annonce_id);
-        console.log(AnnonceDetails[0]?.image);
-        if (AnnonceDetails[0]?.image) {
-          setImagePreview(AnnonceDetails[0].image); // Set the image preview from the backend
-        }
-      } catch (error) {
-        console.error("Error fetching:", error);
-      }
-    };
-
-    fetchAnnonceDetails();
-  }, [annonce_id]);
-
   const {
     register,
     handleSubmit,
@@ -71,15 +53,45 @@ const ModifyAnnonce = () => {
   } = useForm({
     resolver: yupResolver(userSchema),
     defaultValues: {
-      id: AnnonceDetails[0]?.id,
-      title: AnnonceDetails[0]?.title,
-      description: AnnonceDetails[0]?.description,
-      city: AnnonceDetails[0]?.city || "",
-      price: AnnonceDetails[0]?.price,
-      image: AnnonceDetails[0]?.image,
-      category_id: AnnonceDetails[0]?.category_id,
+      id: annonce[0]?.id,
+      title: annonce[0]?.title,
+      description: annonce[0]?.description,
+      city: annonce[0]?.city || "",
+      price: annonce[0]?.price,
+      image: annonce[0]?.image,
+      category_id: annonce[0]?.category_id,
     },
   });
+  useEffect(() => {
+    const fetchAnnonceDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await AnnoncesService.getAnnonceDetails(annonce_id);
+        const categories = await CategoriesService.categories();
+        setCategoriesData(categories.data);
+        setAnnonce(response.data);
+        if (response.data[0]) {
+          const item = response.data[0];
+          setValue("id", item.id);
+          setValue("title", item.title);
+          setValue("description", item.description);
+          setValue("city", item.city);
+          setValue("price", item.price);
+          setValue("category_id", item.category_id);
+
+          if (item.image) {
+            setImagePreview(item.image);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnnonceDetails();
+  }, []);
 
   const onSubmit = async (formData) => {
     try {
@@ -114,6 +126,9 @@ const ModifyAnnonce = () => {
     navigate(-1);
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="container mt-5 ">
       <div className="row justify-content-center">
@@ -121,9 +136,11 @@ const ModifyAnnonce = () => {
           <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
             ← Retour
           </button>
-          <div className={`card ${isDarkMode ? "bg-secondary text-light" : ""}`}>
+          <div
+            className={`card ${isDarkMode ? "bg-secondary text-light" : ""}`}
+          >
             <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}  >
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Titre

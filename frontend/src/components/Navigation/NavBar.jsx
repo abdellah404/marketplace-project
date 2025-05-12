@@ -73,18 +73,6 @@ export function Navigation() {
           id="navbarNav"
         >
           <ul className="navbar-nav align-items-center">
-
-          <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  isDarkMode ? "text-light" : "text-dark"
-                }`}
-                to="/app"
-              >
-                Contact
-              </Link>
-            </li>
-
             <li className="nav-item">
               <Link
                 className={`nav-link ${
@@ -178,7 +166,16 @@ export function Navigation() {
                 </Link>
               </li>
             )}
-
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${
+                  isDarkMode ? "text-light" : "text-dark"
+                }`}
+                to="/app/contact"
+              >
+                Contact
+              </Link>
+            </li>
             <li className="nav-item">
               <Link
                 to="/app/post"

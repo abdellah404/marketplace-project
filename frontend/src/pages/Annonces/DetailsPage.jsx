@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import useFavorites from "../../hooks/useFavorites";
 import useTheme from "../../hooks/useTheme";
+import Loading from "../../components/Loading";
 
 const DetailsPage = () => {
   const { addFavorite, isFavorated, checkFavorited, deleteFavorite } = useFavorites();
@@ -14,6 +15,7 @@ const DetailsPage = () => {
   const { isDarkMode } = useTheme();
   const annonce_id = Number(id);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [loading, setLoading] = useState(true);
   const favoriteData = {
     annonce_id: annonce_id,
   };
@@ -21,11 +23,14 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchAnnonceDetails = async () => {
       try {
+        setLoading(true);
         await getAnnonceDetails(annonce_id);
         await checkFavorited(annonce_id);
         setIsFavorite(isFavorated);
       } catch (error) {
         console.error("Error fetching:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -61,6 +66,10 @@ const DetailsPage = () => {
     navigate(`/app/chat/${receiverId}`);
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className={`container mt-5 bg-${isDarkMode ? "dark" : ""} p-4 rounded`}>
@@ -95,9 +104,7 @@ const DetailsPage = () => {
                     onClick={handleFavoriteClick}
                     style={{ color: isFavorite ? "red" : isDarkMode ? "#adb5bd" : "#6c757d" }}
                   >
-                    <i
-                      className={`bi ${isFavorite ? "bi-heart-fill" : "bi-heart"} fs-4`}
-                    ></i>
+                    <i className={`bi ${isFavorite ? "bi-heart-fill" : "bi-heart"} fs-4`}></i>
                   </button>
                 </div>
 
@@ -106,7 +113,7 @@ const DetailsPage = () => {
                     <i className="bi bi-geo-alt me-1"></i>
                     {AnnonceDetails[0].city}   
                     <span className="mx-2"></span>
-                        <i className="bi bi-clock me-1"></i>
+                    <i className="bi bi-clock me-1"></i>
                     {getTimeAgo(AnnonceDetails[0].created_at)}
                   </p>
                   <h3 className="text-primary fw-semibold">

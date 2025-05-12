@@ -103,7 +103,7 @@ export default function Card({
                 <li>
                   <Link
                     className="dropdown-item text-danger"
-                    to={`/app/annonces/delete/${id}`}
+                    to={`/app/profile/annonces/delete/${id}`}
                   >
                     <i className="bi bi-trash me-2"></i> Delete
                   </Link>

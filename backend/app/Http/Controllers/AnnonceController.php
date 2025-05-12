@@ -106,49 +106,140 @@ class AnnonceController extends Controller
             'city' => 'required|string|max:255',
         ]);
 
+        // Handle the image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($annonce->image) {
+                $oldImagePath = str_replace(asset('storage/'), '', $annonce->image);
+                \Storage::disk('public')->delete($oldImagePath);
+            }
 
-       // Handle the image upload if a new image is provided
-    if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($annonce->image) {
-            $oldImagePath = str_replace(asset('storage/'), '', $annonce->image);
-            \Storage::disk('public')->delete($oldImagePath);
+            // Store the new image
+            $imagePath = $request->file('image')->store('uploads', 'public');
+            $annonce->image = asset('storage/' . $imagePath); // Assign the new image URL
         }
 
-        // Store the new image
-        $imagePath = $request->file('image')->store('uploads', 'public');
-        $annonce->image = asset('storage/' . $imagePath); // Assign the new image URL
-    }
+        // Update the annonce with the request data
+        $annonce->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'city' => $request->city,
+        ]);
 
-    // Update the annonce with the request data
-    $annonce->update([
-        'title' => $request->title,
-        'description' => $request->description,
-        'category_id' => $request->category_id,
-        'price' => $request->price,
-        'city' => $request->city,
-    ]);
+        // Save the new image URL if it was updated
+        if ($request->hasFile('image')) {
+            $annonce->save();
+        }
 
-
-    // Save the new image URL if it was updated
-    if ($request->hasFile('image')) {
-        $annonce->save();
-    }
-    
-    return response()->json([
-        'message' => 'Annonce mise à jour avec succès',
-        'data' => $annonce,
-    ]);
+        return response()->json([
+            'message' => 'Annonce mise à jour avec succès',
+            'data' => $annonce,
+        ]);
     }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Annonce $annonce)
+    public function destroy($id)
     {
-        $annonce->delete();
+        try {
+            $annonce = Annonce::withTrashed()->find($id);
+
+            if (!$annonce) {
+                return response()->json(
+                    [
+                        'message' => 'Annonce introuvable',
+                    ],
+                    404,
+                );
+            }
+
+            \DB::transaction(function () use ($annonce) {
+                // Delete related records
+                if ($annonce->favorites()->exists()) {
+                    $annonce->favorites()->delete();
+                }
+
+                $deleted = $annonce->forceDelete();
+
+                if (!$deleted) {
+                    throw new \Exception('Failed to force delete annonce');
+                }
+            });
+
+            return response()->json([
+                'message' => 'Annonce supprimée avec succès',
+                'status' => 200,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Erreur suppression annonce ID ' . ($id ?? 'unknown') . ': ' . $e->getMessage());
+
+            return response()->json(
+                [
+                    'message' => 'Erreur lors de la suppression de l\'annonce',
+                    'error' => $e->getMessage(),
+                'status' => 500,
+                ],
+                500,
+            );
+        }
+    }
+
+
+    public function disableAnnonce($id)
+    {
+        try {
+            $annonce = Annonce::withTrashed()->find($id);
+
+            if (!$annonce) {
+                return response()->json(
+                    [
+                        'message' => 'Annonce introuvable',
+                    ],
+                    404,
+                );
+            }
+
+            \DB::transaction(function () use ($annonce) {
+                // Delete related records
+                if ($annonce->favorites()->exists()) {
+                    $annonce->favorites()->delete();
+                }
+
+                $deleted = $annonce->delete();
+
+                if (!$deleted) {
+                    throw new \Exception('Failed to force delete annonce');
+                }
+            });
+
+            return response()->json([
+                'message' => 'Annonce supprimée avec succès',
+                'status' => 200,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Erreur suppression annonce ID ' . ($id ?? 'unknown') . ': ' . $e->getMessage());
+
+            return response()->json(
+                [
+                    'message' => 'Erreur lors de la suppression de l\'annonce',
+                    'error' => $e->getMessage(),
+                'status' => 500,
+
+                ],
+                500,
+            );
+        }
+    }
+
+
+    public function disabledAnnonces($user_id)
+    {
+        $data = Annonce::onlyTrashed()->where('user_id', $user_id)->with('user:id,name', 'category:id,name')->get();
 
         return response()->json([
-            'message' => 'Annonce supprimée avec succès',
+            'data' => $data,
         ]);
     }
 }

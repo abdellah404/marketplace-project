@@ -3,7 +3,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import { Navigation } from "../components/Navigation/NavBar";
 import { Login } from "../pages/User/Login";
 import { Register } from "../pages/User/Register";
-import { IndexAdmin } from "../../../admin-pannel/src/pages/admin/IndexAdmin";
 import GuestLayout from "../layouts/User/GuestLayout";
 import HomePage from "../pages/HomePage/HomePage";
 import UserLayout from "../layouts/User/UserLayout";
@@ -19,7 +18,11 @@ import Favorites from "../pages/Profile/Favorites";
 import Annonces from "../pages/Profile/Annonces";
 import ModifyAnnonce from "../pages/Annonces/ModifyAnnonce";
 import Chat from "../pages/ChatPage/Chat";
-import AdminLayout from "../../../admin-pannel/src/layouts/Admin/AdminLayout";
+import Contact from "../pages/Contact/Contact";
+import DeleteAnnonce from "../pages/Annonces/DeleteAnnonce";
+import DisabledAnnonces from "../pages/Profile/DisabledAnnonces";
+import SearchResult from "../pages/SearchResult/SearchResult";
+import Messages from "../pages/ChatPage/Messages";
 
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated } = useAuth(); // Check user authentication
@@ -50,6 +53,16 @@ export const router = createBrowserRouter([
         path: "/app/annonces/details/:id",
         element: <DetailsPage />,
       },
+      {
+        path: "/app/contact",
+        element: <Contact />,
+      },
+      
+      {
+        path: "/app/searchresult",
+        element: <SearchResult />,
+      },
+
     ],
   },
 
@@ -59,6 +72,10 @@ export const router = createBrowserRouter([
       {
         path: "/app/post",
         element: <ProtectedRoute element={<CreateAnnonce />} />,
+      },
+      {
+        path: "/app/chat",
+        element: <ProtectedRoute element={<Messages />} />,
       },
       {
         path: "/app/chat/:receiverId",
@@ -84,6 +101,14 @@ export const router = createBrowserRouter([
           {
             path: "/app/profile/annonces/edit/:id",
             element: <ProtectedRoute element={<ModifyAnnonce />} />,
+          },
+          {
+            path: "/app/profile/annonces/delete/:id",
+            element: <ProtectedRoute element={<DeleteAnnonce />} />,
+          },
+          {
+            path: "/app/profile/annonces/disabled",
+            element: <ProtectedRoute element={<DisabledAnnonces />} />,
           },
         ],
       },

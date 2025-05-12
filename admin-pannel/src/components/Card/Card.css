@@ -1,0 +1,33 @@
+
+  
+  .image-container img {
+    width: 100% ;
+    padding: 10px;
+    height: 100% ;
+    object-fit: cover ; /* L'image remplit le conteneur, sans déformation, mais peut être coupée */
+    border-radius: 20px ; /* Pour ajouter un arrondi à l'image (optionnel) */
+
+  }
+
+  .card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limiter à deux lignes */
+    line-clamp: 2; /* Limiter à deux lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Ajoute des points de suspension pour les titres longs */
+    white-space: normal; /* Autorise le texte à se casser en lignes multiples */
+    font-size: 1.0rem; /* Augmenter la taille du texte */
+    line-height: 1.5; /* Ajuste la hauteur de ligne pour s'assurer qu'on ait deux lignes */
+    height: 3em; /* Définit la hauteur pour contenir deux lignes */
+  }
+
+  .user-icon {
+    width: 30px;
+    font-size: 0.8rem; /* Augmenter la taille du texte */
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  

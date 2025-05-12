@@ -23,3 +23,8 @@
 .dark-sidebar .nav-link:hover:not(.active) {
   background-color: #495057;
 }
+.custom-active {
+  background-color: rgba(0, 125, 170, 0.2) !important;
+  border-radius: 0.25rem;
+  color: inherit !important;
+}

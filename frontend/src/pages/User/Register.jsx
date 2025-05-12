@@ -43,14 +43,14 @@ export function Register() {
     console.log(formData);
     await register_new_user(formData)
       .then((result) => {
-        navigate("/app");
+        navigate("/app/login");
       })
       .catch((err) => {});
   };
 
   return (
     <>
-      {isAuthenticated && <Navigate to="/app"></Navigate>}
+      {isAuthenticated && <Navigate to="/app/login"></Navigate>}
       <form method="post" onSubmit={handleSubmit(onSubmit)}>
         <div className="container mt-3">
           <div className="row justify-content-center">

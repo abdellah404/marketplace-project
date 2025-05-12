@@ -37,10 +37,25 @@ class AnnoncesService {
         "Content-Type": "multipart/form-data",
       },
     });
+  }
 
-    
+    // delete annonce
+
+    async deleteAnnonce(ann_id) {
+      const response = await axioService.delete(`/annonces/delete/${ann_id}`);
+      return response.data ;
+    }
+
+
+  // disable annonce
+
+  async disableAnnonces(ann_id) {
+    const response = await axioService.get(`/annonces/disabled/${ann_id}`);
     return response.data ;
   }
+
+    
+  
 
 
 }

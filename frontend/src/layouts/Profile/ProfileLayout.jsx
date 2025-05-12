@@ -7,7 +7,7 @@ const ProfileLayout = ({ children }) => {
         <div className="profile-layout">
           {/* Sidebar */}
           <aside className="profile-sidebar">
-            <ProfileNavigation />
+            <ProfileNavigation/>
           </aside>
     
           {/* Main Content */}

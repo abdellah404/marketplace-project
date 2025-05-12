@@ -93,4 +93,20 @@ class AuthController extends Controller
         $user->update($request->only(['name', 'city', 'phone']));
         return response()->json(["user" => $user]);
     }
+
+    public function getUsers(Request $request)
+    {
+        $users = User::all();
+        return response()->json($users);
+    }
+
+    public function deleteUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully']);
+    }
 }
